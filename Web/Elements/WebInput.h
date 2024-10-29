@@ -54,9 +54,9 @@ protected:
 private:
 	// Common
 	VOID OnVariableChanged();
-	Handle<Variable> hVariable;
-	WebInputType uInputType;
-	UINT64 uTimeChanged;
+	WebInputType m_InputType;
+	UINT64 m_TimeChanged;
+	Handle<Variable> m_Variable;
 };
 
 }}

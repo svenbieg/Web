@@ -52,7 +52,7 @@ public:
 	// Common
 	VOID Add(Handle<Sentence> Element);
 	Handle<AttributeMap> Attributes;
-	VOID Break(UINT Count=1) { uBreaks=Count; }
+	VOID Break(UINT Count=1) { m_Breaks=Count; }
 	Handle<String> Class;
 	Handle<ElementList> Elements;
 	Handle<String> Id;
@@ -69,9 +69,9 @@ protected:
 	SIZE_T WriteClosureToStream(OutputStream* Stream, UINT Level);
 	virtual SIZE_T WriteElementsToStream(OutputStream* Stream, WebContext* Context, UINT Level);
 	SIZE_T WriteTagToStream(OutputStream* Stream, UINT Level);
-	LPCSTR pTag;
-	UINT uBreaks;
-	HtmlNodeFlags uFlags;
+	UINT m_Breaks;
+	HtmlNodeFlags m_Flags;
+	LPCSTR m_Tag;
 };
 
 }}

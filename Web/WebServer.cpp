@@ -18,6 +18,7 @@
 #include "WebServer.h"
 #include "WebSite.h"
 
+using namespace Concurrency;
 using namespace Devices;
 using namespace Network::Http;
 using namespace Storage;
@@ -37,14 +38,14 @@ namespace Web {
 //==================
 
 WebServer::WebServer(WebSite* web_site, Handle<String> host_name):
-pWebSite(web_site)
+m_WebSite(web_site)
 {
-hHttpServer=new HttpServer();
-hHttpServer->ConnectionReceived.Add(this, &WebServer::OnConnectionReceived);
+m_HttpServer=new HttpServer();
+m_HttpServer->ConnectionReceived.Add(this, &WebServer::OnConnectionReceived);
 if(host_name)
 	{
-	hHttpsServer=new HttpsServer(host_name);
-	hHttpsServer->ConnectionReceived.Add(this, &WebServer::OnConnectionReceived);
+	m_HttpsServer=new HttpsServer(host_name);
+	m_HttpsServer->ConnectionReceived.Add(this, &WebServer::OnConnectionReceived);
 	}
 auto clock=Clock::Get();
 clock->Hour.Add(this, &WebServer::OnClockHour);
@@ -57,9 +58,9 @@ clock->Hour.Add(this, &WebServer::OnClockHour);
 
 VOID WebServer::Listen()
 {
-hHttpServer->Listen();
-if(hHttpsServer)
-	hHttpsServer->Listen();
+m_HttpServer->Listen();
+if(m_HttpsServer)
+	m_HttpsServer->Listen();
 }
 
 
@@ -71,18 +72,18 @@ VOID WebServer::DoAccept(Handle<HttpConnection> con)
 {
 auto request=con->GetRequest();
 auto sid=request->Cookies->Get("sid");
-ScopedLock lock(cMutex);
+ScopedLock lock(m_Mutex);
 Handle<WebSession> session;
-if(!cSessions.try_get(sid, &session))
+if(!m_Sessions.try_get(sid, &session))
 	{
 	while(1)
 		{
 		sid=RandomString(16);
-		if(!cSessions.contains(sid))
+		if(!m_Sessions.contains(sid))
 			break;
 		}
 	session=new WebSession(sid);
-	cSessions.set(sid, session);
+	m_Sessions.set(sid, session);
 	}
 lock.Unlock();
 Handle<HttpResponse> response=new HttpResponse(HttpStatus::BadRequest);
@@ -90,11 +91,11 @@ response->Cookies->Set("sid", sid);
 auto host_name=request->Properties->Get("Host");
 if(!host_name)
 	return;
-ScopedLock session_lock(session->CriticalSection);
-auto doc_root=pWebSite->Public;
+ScopedLock session_lock(session->Mutex);
+auto doc_root=m_WebSite->Public;
 if(con->IsProtected())
 	{
-	doc_root=pWebSite->Protected;
+	doc_root=m_WebSite->Protected;
 	auto account=session->Account;
 	if(account)
 		doc_root=account->DocumentRoot;
@@ -105,7 +106,7 @@ else
 	}
 session->TimeOut=GetTickCount64()+60*60*1000;
 session_lock.Unlock();
-Handle<WebContext> context=new WebContext(pWebSite);
+Handle<WebContext> context=new WebContext(m_WebSite);
 context->Connection=con;
 context->DocumentRoot=doc_root;
 context->HostName=host_name;
@@ -262,9 +263,9 @@ while(1)
 
 VOID WebServer::OnClockHour()
 {
-ScopedLock lock(cMutex);
+ScopedLock lock(m_Mutex);
 auto time=GetTickCount64();
-for(auto it=cSessions.begin(); it.has_current();)
+for(auto it=m_Sessions.begin(); it.has_current();)
 	{
 	auto item=it.get_current();
 	auto session=item.get_value();

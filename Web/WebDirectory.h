@@ -41,7 +41,7 @@ public:
 
 private:
 	// Common
-	Handle<Directory> hDirectory;
+	Handle<Directory> m_Directory;
 };
 
 }

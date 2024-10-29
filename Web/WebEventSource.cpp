@@ -11,11 +11,12 @@
 
 #include "Core/Application.h"
 #include "Storage/Streams/StreamWriter.h"
-#include "Storage/DynamicBuffer.h"
+#include "Storage/Intermediate.h"
 #include "Web/Elements/WebVariable.h"
 #include "WebEventSource.h"
 #include "WebPage.h"
 
+using namespace Concurrency;
 using namespace Core;
 using namespace Network::Http;
 using namespace Storage;
@@ -77,8 +78,8 @@ LPCSTR WebEventSourceScript=
 //==================
 
 WebEventSource::WebEventSource(WebPage* page):
-pWebPage(page),
-uFlags(WebEventSourceFlags::None)
+m_Flags(WebEventSourceFlags::None),
+m_WebPage(page)
 {
 page->AddScript(WebEventSourceScript);
 page->Changed.Add(this, &WebEventSource::OnPageChanged);
@@ -86,7 +87,7 @@ page->Changed.Add(this, &WebEventSource::OnPageChanged);
 
 WebEventSource::~WebEventSource()
 {
-pWebPage->Changed.Remove(this);
+m_WebPage->Changed.Remove(this);
 }
 
 
@@ -96,24 +97,24 @@ pWebPage->Changed.Remove(this);
 
 VOID WebEventSource::RequestGet(Handle<WebContext> context)
 {
-ScopedLock lock(cMutex);
+ScopedLock lock(m_Mutex);
 auto response=context->Response;
 while(1)
 	{
-	if(GetFlag(uFlags, WebEventSourceFlags::Closing))
+	if(GetFlag(m_Flags, WebEventSourceFlags::Closing))
 		{
 		response->Status=HttpStatus::ConnectionClosed;
 		return;
 		}
-	if(GetFlag(uFlags, WebEventSourceFlags::Event))
+	if(GetFlag(m_Flags, WebEventSourceFlags::Event))
 		{
-		ClearFlag(uFlags, WebEventSourceFlags::Event);
+		ClearFlag(m_Flags, WebEventSourceFlags::Event);
 		auto lng=context->Language;
-		Handle<DynamicBuffer> buf=new DynamicBuffer();
+		Handle<Intermediate> buf=new Intermediate();
 		buf->SetFormat(StreamFormat::UTF8);
 		StreamWriter writer(buf);
 		writer.Print("data: ");
-		for(auto it=pWebPage->Controls->First(); it->HasCurrent(); it->MoveNext())
+		for(auto it=m_WebPage->Controls->First(); it->HasCurrent(); it->MoveNext())
 			{
 			auto control=it->GetValue();
 			auto var=dynamic_cast<WebVariable*>(control);
@@ -122,15 +123,14 @@ while(1)
 			var->UpdateToStream(buf, context);
 			}
 		writer.Print("\nretry: 0\n\n");
-		buf->Seek(0);
 		response->Properties->Set("Content-type", "text/event-stream; charset=utf-8");
 		response->Content=buf;
 		response->Status=HttpStatus::Ok;
 		return;
 		}
-	SetFlag(uFlags, WebEventSourceFlags::Waiting);
-	cSignal.Wait(lock);
-	ClearFlag(uFlags, WebEventSourceFlags::Waiting);
+	SetFlag(m_Flags, WebEventSourceFlags::Waiting);
+	m_Signal.Wait(lock);
+	ClearFlag(m_Flags, WebEventSourceFlags::Waiting);
 	}
 }
 
@@ -141,15 +141,15 @@ while(1)
 
 VOID WebEventSource::DoResponse()
 {
-cSignal.Broadcast();
+m_Signal.Trigger();
 }
 
 VOID WebEventSource::OnPageChanged()
 {
-ScopedLock lock(cMutex);
-if(!GetFlag(uFlags, WebEventSourceFlags::Event))
+ScopedLock lock(m_Mutex);
+if(!GetFlag(m_Flags, WebEventSourceFlags::Event))
 	{
-	SetFlag(uFlags, WebEventSourceFlags::Event);
+	SetFlag(m_Flags, WebEventSourceFlags::Event);
 	Application::Current->Dispatch(this, &WebEventSource::DoResponse);
 	}
 }

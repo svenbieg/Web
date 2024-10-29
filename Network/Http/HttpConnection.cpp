@@ -28,20 +28,20 @@ namespace Network {
 
 HttpConnection::HttpConnection(Handle<TcpSocket> sock):
 Socket(sock),
-hSocket(sock),
-pStream(sock),
-uFlags(HttpConnectionFlags::None)
+m_Flags(HttpConnectionFlags::None),
+m_Socket(sock),
+m_Stream(sock)
 {
-uFormat=StreamFormat::Ansi;
+m_Format=StreamFormat::Ansi;
 }
 
 HttpConnection::HttpConnection(Handle<TlsSocket> sock):
 Socket(sock->Socket),
-hSocket(sock),
-pStream(sock),
-uFlags(HttpConnectionFlags::Protected)
+m_Flags(HttpConnectionFlags::None),
+m_Socket(sock),
+m_Stream(sock)
 {
-uFormat=StreamFormat::Ansi;
+m_Format=StreamFormat::Ansi;
 }
 
 
@@ -66,13 +66,13 @@ return response;
 VOID HttpConnection::Send(Handle<HttpRequest> request)
 {
 request->WriteToStream(this);
-pStream->Flush();
+m_Stream->Flush();
 }
 
 VOID HttpConnection::Send(Handle<HttpResponse> response)
 {
 response->WriteToStream(this);
-pStream->Flush();
+m_Stream->Flush();
 }
 
 BOOL HttpConnection::SendFile(Handle<File> file, Handle<String> path)
@@ -87,10 +87,10 @@ request->Path=path;
 request->Properties->Set("Content-Type", "application/octet-stream");
 UINT64 pos=0;
 UINT64 size=file->GetSize();
-constexpr UINT chunk_size=1024*1024;
+constexpr UINT64 chunk_size=1024*1024;
 while(pos<size)
 	{
-	UINT64 copy=MIN(size-pos, chunk_size);
+	UINT64 copy=Min(size-pos, chunk_size);
 	UINT64 end=pos+copy;
 	request->Properties->Set("Content-Length", new String("%u", copy));
 	request->Properties->Set("Content-Range", new String("%u-%u/%u", pos, end, size));
@@ -111,12 +111,12 @@ return true;
 
 SIZE_T HttpConnection::Available()
 {
-return pStream->Available();
+return m_Stream->Available();
 }
 
 SIZE_T HttpConnection::Read(VOID* buf, SIZE_T size)
 {
-return pStream->Read(buf, size);
+return m_Stream->Read(buf, size);
 }
 
 
@@ -126,12 +126,12 @@ return pStream->Read(buf, size);
 
 VOID HttpConnection::Flush()
 {
-pStream->Flush();
+m_Stream->Flush();
 }
 
 SIZE_T HttpConnection::Write(VOID const* buf, SIZE_T size)
 {
-return pStream->Write(buf, size);
+return m_Stream->Write(buf, size);
 }
 
 }}

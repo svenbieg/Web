@@ -87,7 +87,7 @@ LPCSTR webDirectoryScript=
 //==================
 
 WebDirectory::WebDirectory(Handle<Directory> dir):
-hDirectory(dir)
+m_Directory(dir)
 {}
 
 
@@ -101,7 +101,7 @@ SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print("<!DOCTYPE html>\r\n");
 size+=writer.Print("<html>\r\n<head>\r\n<title>");
-auto path=hDirectory->GetPath();
+auto path=m_Directory->GetPath();
 Handle<String> full_path=new String("%s/%s", root->Begin(), path->Begin());
 size+=writer.Print(full_path);
 size+=writer.Print("</title>\r\n");
@@ -131,7 +131,7 @@ else
 	{
 	size+=writer.Print("  <tr><th><a href=\"index.html\">..</a></th></tr>\r\n");
 	}
-for(auto it=hDirectory->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Directory->First(); it->HasCurrent(); it->MoveNext())
 	{
 	auto item=it->GetCurrent();
 	auto dir=Convert<Storage::Directory>(item);
@@ -147,7 +147,7 @@ for(auto it=hDirectory->First(); it->HasCurrent(); it->MoveNext())
 	}
 size+=writer.Print("</table>\r\n</p>\r\n\r\n");
 size+=writer.Print("<p>\r\n<table>\r\n");
-for(auto it=hDirectory->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Directory->First(); it->HasCurrent(); it->MoveNext())
 	{
 	auto item=it->GetCurrent();
 	if(Convert<Storage::Directory>(item))

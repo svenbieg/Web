@@ -27,7 +27,7 @@ namespace Network {
 //==================
 
 HttpsServer::HttpsServer(Handle<String> host_name):
-hHostName(host_name)
+m_HostName(host_name)
 {}
 
 
@@ -37,9 +37,9 @@ hHostName(host_name)
 
 VOID HttpsServer::Listen(WORD port)
 {
-hSocket=new TcpSocket();
-hSocket->Listen(port);
-hListenTask=CreateTask(this, &HttpsServer::DoListen);
+m_Socket=new TcpSocket();
+m_Socket->Listen(port);
+m_ListenTask=CreateTask(this, &HttpsServer::DoListen);
 }
 
 
@@ -52,11 +52,11 @@ VOID HttpsServer::DoListen()
 auto task=GetCurrentTask();
 while(!task->Cancelled)
 	{
-	Handle<TcpSocket> tcp_sock=hSocket->Accept();
+	Handle<TcpSocket> tcp_sock=m_Socket->Accept();
 	if(!tcp_sock)
 		break;
 	Handle<TlsSocket> tls_sock=new TlsSocket(tcp_sock);
-	if(!tls_sock->Accept(hHostName))
+	if(!tls_sock->Accept(m_HostName))
 		break;
 	Handle<HttpConnection> http_con=new HttpConnection(tls_sock);
 	ConnectionReceived(this, http_con);

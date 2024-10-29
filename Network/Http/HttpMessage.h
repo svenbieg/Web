@@ -10,7 +10,8 @@
 //=======
 
 #include "Collections/Map.h"
-#include "Storage/Seekable.h"
+#include "Storage/Streams/InputStream.h"
+#include "Storage/Streams/OutputStream.h"
 #include "HttpHelper.h"
 
 
@@ -33,11 +34,10 @@ public:
 	using InputStream=Storage::Streams::InputStream;
 	using OutputStream=Storage::Streams::OutputStream;
 	using PropertyMap=Collections::Map<Handle<String>, Handle<String>>;
-	using Seekable=Storage::Seekable;
 
 	// Common
 	virtual VOID Clear();
-	Handle<Seekable> Content;
+	Handle<InputStream> Content;
 	BOOL KeepAlive();
 	VOID KeepAlive(BOOL KeepAlive);
 	Handle<PropertyMap> Properties;

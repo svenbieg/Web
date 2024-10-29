@@ -46,7 +46,7 @@ public:
 
 private:
 	// Common
-	Handle<WebServer> hWebServer;
+	Handle<WebServer> m_WebServer;
 };
 
 }

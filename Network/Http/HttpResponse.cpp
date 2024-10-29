@@ -142,7 +142,7 @@ if(Content)
 		}
 	else
 		{
-		content_size=Content->GetSize();
+		content_size=Content->Available();
 		}
 	if(content_size>SIZE_MAX)
 		content_size=0;

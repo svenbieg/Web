@@ -40,8 +40,8 @@ if(host_name)
 	auto protected_dir=Filesystem::Directory::Open("Protected");
 	Protected->AddDirectory(protected_dir);
 	}
-hWebServer=new WebServer(this, host_name);
-hWebServer->Listen();
+m_WebServer=new WebServer(this, host_name);
+m_WebServer->Listen();
 }
 
 

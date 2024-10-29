@@ -38,7 +38,7 @@ Document->AddStyle("table.simple", "border:1px solid #808080; border-collapse:co
 Document->AddStyle("table.simple td", "border:1px solid #A0A0A0; padding-left:4px; padding-right:4px; text-align:right; vertical-align:middle;");
 Document->AddStyle("table.simple th", "background-color:#F8F8F8; border:1px solid #A0A0A0; font-weight:normal; padding-left:4px; padding-right:8px; text-align:left; vertical-align:middle;");
 Class="simple";
-uBreaks=1;
+m_Breaks=1;
 }
 
 

@@ -194,9 +194,9 @@ GoogleKey::GoogleKey(Handle<String> id, Handle<Buffer> exp, Handle<Buffer> mod):
 RsaKey(exp, mod),
 Id(id)
 {
-if(!hKeys)
-	hKeys=new KeyMap();
-hKeys->Set(Id, this);
+if(!m_Keys)
+	m_Keys=new KeyMap();
+m_Keys->Set(Id, this);
 }
 
 
@@ -209,12 +209,12 @@ Handle<GoogleKey> GoogleKey::Get(Handle<String> id)
 if(!id)
 	return nullptr;
 Handle<GoogleKey> key;
-if(hKeys)
+if(m_Keys)
 	{
-	key=hKeys->Get(id);
+	key=m_Keys->Get(id);
 	if(key)
 		return key;
-	hKeys->Clear();
+	m_Keys->Clear();
 	}
 #ifndef _WIN32
 TlsCertificate::Add("googleapis.com", strGoogle);
@@ -252,9 +252,9 @@ for(auto it=keys->First(); it->HasCurrent(); it->MoveNext())
 	auto mod=Base64Decode(n->Begin(), 0);
 	new GoogleKey(kid, exp, mod);
 	}
-if(!hKeys)
+if(!m_Keys)
 	return nullptr;
-return hKeys->Get(id);
+return m_Keys->Get(id);
 }
 
 
@@ -262,6 +262,6 @@ return hKeys->Get(id);
 // Common Private
 //================
 
-Handle<GoogleKey::KeyMap> GoogleKey::hKeys;
+Handle<GoogleKey::KeyMap> GoogleKey::m_Keys;
 
 }}

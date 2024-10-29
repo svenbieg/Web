@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{C63A1716-E265-4125-8C71-519B17DAC536}</ItemsProjectGuid>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <ItemsSccProjectName>$/Shared/Web</ItemsSccProjectName>
+    <ItemsSccAuxPath>https://svenbieg.visualstudio.com</ItemsSccAuxPath>
+    <ItemsSccLocalPath>.</ItemsSccLocalPath>
+    <ItemsSccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</ItemsSccProvider>
+    <NMakeIncludeSearchPath>$(NMakeIncludeSearchPath);$(MSBuildThisFileDirectory)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlBreak.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlCaption.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlElement.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlHead.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlImage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLabel.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLink.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlText.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlCell.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlColumn.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlRow.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlTable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\HtmlDocument.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Java\JavaScript.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Json\JsonElement.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Https\HttpsClient.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Https\HttpsServer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpClient.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpConnection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpHelper.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpMessage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpParameters.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpResponse.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpServer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Url.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebAxis.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebGraph.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebDataRow.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Tables\WebTable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebControl.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebGrid.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebInput.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebLabel.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebLog.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebLogin.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebParagraph.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebVariable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Security\GoogleKey.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Security\GoogleToken.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebAccount.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebDirectory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebContext.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebEventSource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebSession.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebSite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebPage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebServer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlBreak.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlCaption.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlHead.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlImage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLabel.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLink.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlNode.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlElement.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlText.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlCell.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlColumn.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlRow.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlTable.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\HtmlDocument.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Java\JavaScript.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Json\JsonElement.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Https\HttpsClient.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Https\HttpsServer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpClient.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpConnection.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpHelper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpMessage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpParameters.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpRequest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpResponse.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpServer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Strings\WebLog.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Strings\WebLogin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Url.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebGraph.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebAxis.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebDataRow.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Tables\WebTable.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebControl.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebGrid.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebInput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebLabel.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebLog.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebLogin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebParagraph.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebVariable.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Security\GoogleKey.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Security\GoogleToken.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebAccount.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebDirectory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebEventSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebSession.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebSite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebPage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebServer.h" />
+  </ItemGroup>
+</Project>

@@ -30,7 +30,7 @@ namespace Html {
 
 HtmlImage::HtmlImage(HtmlNode* parent, Handle<Sentence> url):
 HtmlNode(parent, "img"),
-hUrl(url)
+m_Url(url)
 {}
 
 
@@ -44,7 +44,7 @@ auto lng=context->Language;
 SIZE_T size=HtmlNode::WriteAttributesToStream(stream, context);
 StreamWriter writer(stream);
 size+=writer.Print(" src=\"");
-size+=writer.Print(hUrl->Begin(lng));
+size+=writer.Print(m_Url->Begin(lng));
 size+=writer.Print("\"");
 return size;
 }

@@ -41,8 +41,8 @@ protected:
 private:
 	// Common
 	VOID OnVariableChanged();
-	Handle<Variable> hVariable;
-	UINT64 uTimeChanged;
+	Handle<Variable> m_Variable;
+	UINT64 m_TimeChanged;
 };
 
 }}

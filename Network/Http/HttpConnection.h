@@ -54,7 +54,7 @@ public:
 	// Common
 	Handle<HttpRequest> GetRequest();
 	Handle<HttpResponse> GetResponse();
-	BOOL IsProtected()const { return GetFlag(uFlags, HttpConnectionFlags::Protected); }
+	BOOL IsProtected()const { return GetFlag(m_Flags, HttpConnectionFlags::Protected); }
 	VOID Send(Handle<HttpRequest> Request);
 	VOID Send(Handle<HttpResponse> Response);
 	BOOL SendFile(Handle<File> File, Handle<String> Path=nullptr);
@@ -70,9 +70,9 @@ public:
 
 private:
 	// Common
-	Handle<Object> hSocket;
-	RandomAccessStream* pStream;
-	HttpConnectionFlags uFlags;
+	HttpConnectionFlags m_Flags;
+	Handle<Object> m_Socket;
+	RandomAccessStream* m_Stream;
 };
 
 }}

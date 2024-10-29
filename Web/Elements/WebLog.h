@@ -44,8 +44,8 @@ private:
 	// Common
 	VOID OnClearButtonClicked();
 	VOID OnLogChanged();
-	Handle<Log> hLog;
-	UINT64 uTimeChanged;
+	Handle<Log> m_Log;
+	UINT64 m_TimeChanged;
 };
 
 }}

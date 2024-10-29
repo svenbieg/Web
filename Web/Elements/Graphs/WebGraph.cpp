@@ -85,8 +85,8 @@ if(axis_x_count>0)
 		size+=writer.Print(", '");
 		size+=writer.Print(label->Begin(lng));
 		size+=writer.Print("' ]");
-		min_x=MIN(min_x, x);
-		max_x=MAX(max_x, x);
+		min_x=Min(min_x, x);
+		max_x=Max(max_x, x);
 		}
 	size+=writer.Print("];\r\n");
 	}
@@ -108,8 +108,8 @@ if(axis_y_count>0)
 		size+=writer.Print(", '");
 		size+=writer.Print(label->Begin(lng));
 		size+=writer.Print("' ]");
-		min_y=MIN(min_y, y);
-		max_y=MAX(max_y, y);
+		min_y=Min(min_y, y);
+		max_y=Max(max_y, y);
 		}
 	size+=writer.Print("];\r\n");
 	}

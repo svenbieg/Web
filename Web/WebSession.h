@@ -36,7 +36,7 @@ public:
 
 	// Common
 	Handle<WebAccount> Account;
-	Mutex CriticalSection;
+	Concurrency::Mutex Mutex;
 	Handle<WebEventSource> EventSource;
 	Handle<String> const Id;
 	UINT64 TimeOut;

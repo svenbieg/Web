@@ -42,8 +42,8 @@ public:
 private:
 	// Common
 	VOID DoListen();
-	Handle<Task> hListenTask;
-	Handle<TcpSocket> hSocket;
+	Handle<Concurrency::Task> m_ListenTask;
+	Handle<TcpSocket> m_Socket;
 };
 
 }}

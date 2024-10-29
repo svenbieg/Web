@@ -31,15 +31,15 @@ namespace Web {
 
 WebLabel::WebLabel(HtmlNode* parent, Handle<Variable> var, Handle<String> id):
 WebVariable(parent, "label", id? id: var->Name),
-hVariable(var),
-uTimeChanged(0)
+m_Variable(var),
+m_TimeChanged(0)
 {
-hVariable->Changed.Add(this, &WebLabel::OnVariableChanged);
+m_Variable->Changed.Add(this, &WebLabel::OnVariableChanged);
 }
 
 WebLabel::~WebLabel()
 {
-hVariable->Changed.Remove(this);
+m_Variable->Changed.Remove(this);
 }
 
 
@@ -49,14 +49,14 @@ hVariable->Changed.Remove(this);
 
 SIZE_T WebLabel::UpdateToStream(OutputStream* stream, WebContext* context)
 {
-if(context->TimeStamp>uTimeChanged)
+if(context->TimeStamp>m_TimeChanged)
 	return 0;
 auto lng=context->Language;
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print(Id);
 size+=writer.Print("=");
-size+=writer.Print(hVariable->ToString(lng));
+size+=writer.Print(m_Variable->ToString(lng));
 size+=writer.Print(";");
 return size;
 }
@@ -71,7 +71,7 @@ SIZE_T WebLabel::WriteElementsToStream(OutputStream* stream, WebContext* context
 auto lng=context->Language;
 SIZE_T size=0;
 StreamWriter writer(stream);
-size+=writer.Print(hVariable->ToString(lng));
+size+=writer.Print(m_Variable->ToString(lng));
 size+=WebVariable::WriteElementsToStream(stream, context, level);
 return size;
 }
@@ -83,7 +83,7 @@ return size;
 
 VOID WebLabel::OnVariableChanged()
 {
-uTimeChanged=GetTickCount64();
+m_TimeChanged=GetTickCount64();
 Page->Changed(Page);
 }
 

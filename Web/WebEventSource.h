@@ -66,10 +66,10 @@ private:
 	// Common
 	VOID DoResponse();
 	VOID OnPageChanged();
-	Mutex cMutex;
-	Signal cSignal;
-	WebPage* pWebPage;
-	WebEventSourceFlags uFlags;
+	WebEventSourceFlags m_Flags;
+	Concurrency::Mutex m_Mutex;
+	Concurrency::Signal m_Signal;
+	WebPage* m_WebPage;
 };
 
 }

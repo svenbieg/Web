@@ -36,7 +36,7 @@ protected:
 
 private:
 	// Common
-	Handle<Sentence> hUrl;
+	Handle<Sentence> m_Url;
 };
 
 }}

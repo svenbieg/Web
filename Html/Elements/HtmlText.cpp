@@ -30,7 +30,7 @@ namespace Html {
 
 HtmlText::HtmlText(HtmlNode* parent, Handle<Sentence> text):
 HtmlElement(parent),
-hText(text)
+m_Text(text)
 {}
 
 
@@ -41,7 +41,7 @@ hText(text)
 SIZE_T HtmlText::WriteToStream(OutputStream* stream, WebContext* context, UINT level)
 {
 StreamWriter writer(stream);
-return writer.Print(hText->Begin(context->Language));
+return writer.Print(m_Text->Begin(context->Language));
 }
 
 }}

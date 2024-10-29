@@ -30,7 +30,7 @@ namespace Html {
 
 HtmlBreak::HtmlBreak(HtmlNode* parent, UINT count):
 HtmlElement(parent),
-uCount(count)
+m_Count(count)
 {
 parent->SetFlag(HtmlNodeFlags::MultiLine);
 }
@@ -46,7 +46,7 @@ SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print("\r\n");
 size+=writer.PrintChar(' ', level*2);
-for(UINT u=0; u<uCount; u++)
+for(UINT u=0; u<m_Count; u++)
 	size+=writer.Print("<br />");
 return size;
 }

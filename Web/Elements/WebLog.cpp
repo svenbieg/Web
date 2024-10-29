@@ -36,20 +36,20 @@ namespace Web {
 
 WebLog::WebLog(HtmlNode* parent, Handle<String> id, Handle<Log> log):
 WebVariable(parent, "table", id),
-hLog(log),
-uTimeChanged(0)
+m_Log(log),
+m_TimeChanged(0)
 {
 Class="logbox";
 Document->AddStyle("table.logbox td", "vertical-align:top;");
 Document->AddStyle("table.logbox th", "padding-right:8px; text-align:right; vertical-align:top;");
 auto btn=new WebButton(parent, id+"Button", STR_WEB_LOG_CLEAR);
 btn->Clicked.Add(this, &WebLog::OnClearButtonClicked);
-hLog->Changed.Add(this, &WebLog::OnLogChanged);
+m_Log->Changed.Add(this, &WebLog::OnLogChanged);
 }
 
 WebLog::~WebLog()
 {
-hLog->Changed.Remove(this);
+m_Log->Changed.Remove(this);
 }
 
 
@@ -59,14 +59,14 @@ hLog->Changed.Remove(this);
 
 SIZE_T WebLog::UpdateToStream(OutputStream* stream, WebContext* context)
 {
-if(context->TimeStamp>uTimeChanged)
+if(context->TimeStamp>m_TimeChanged)
 	return 0;
 auto lng=context->Language;
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print(Id);
 size+=writer.Print("=");
-for(auto it=hLog->Entries->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Log->Entries->First(); it->HasCurrent(); it->MoveNext())
 	{
 	auto entry=it->GetCurrent();
 	size+=writer.Print("<tr><th>");
@@ -91,7 +91,7 @@ UINT body_level=level+1;
 size+=writer.PrintChar(' ', body_level*2);
 size+=writer.Print("<tbody>");
 UINT row_level=body_level+1;
-for(auto it=hLog->Entries->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Log->Entries->First(); it->HasCurrent(); it->MoveNext())
 	{
 	auto entry=it->GetCurrent();
 	size+=writer.Print("\r\n");
@@ -117,13 +117,13 @@ return size;
 
 VOID WebLog::OnClearButtonClicked()
 {
-hLog->Clear();
-hLog->Write(STR_WEB_LOG_CLEARED);
+m_Log->Clear();
+m_Log->Write(STR_WEB_LOG_CLEARED);
 }
 
 VOID WebLog::OnLogChanged()
 {
-uTimeChanged=GetTickCount64();
+m_TimeChanged=GetTickCount64();
 Page->Changed(Page);
 }
 

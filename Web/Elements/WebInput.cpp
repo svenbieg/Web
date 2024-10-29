@@ -47,14 +47,14 @@ LPCSTR WebInputScript=
 
 WebInput::WebInput(HtmlNode* parent, Handle<Variable> var, Handle<String> id, WebInputType type):
 WebVariable(parent, "input", id? id: var->Name),
-hVariable(var),
-uInputType(type),
-uTimeChanged(0)
+m_InputType(type),
+m_TimeChanged(0),
+m_Variable(var)
 {
-hVariable->Changed.Add(this, &WebInput::OnVariableChanged);
+m_Variable->Changed.Add(this, &WebInput::OnVariableChanged);
 Document->AddScript(WebInputScript);
 Document->AddStyle("input", "margin-top:8px; padding-left:2px; padding-right:2px; width:200px");
-if(uInputType==WebInputType::Number)
+if(m_InputType==WebInputType::Number)
 	{
 	Document->AddStyle("input.num", "width:50px");
 	Class="num";
@@ -63,7 +63,7 @@ if(uInputType==WebInputType::Number)
 
 WebInput::~WebInput()
 {
-hVariable->Changed.Remove(this);
+m_Variable->Changed.Remove(this);
 }
 
 
@@ -76,19 +76,19 @@ VOID WebInput::OnNotified(Handle<WebContext> context)
 auto request=context->Request;
 auto value=request->Parameters->Get("value");
 value=Url::Decode(value);
-hVariable->FromString(value);
+m_Variable->FromString(value);
 }
 
 SIZE_T WebInput::UpdateToStream(OutputStream* stream, WebContext* context)
 {
-if(context->TimeStamp>uTimeChanged)
+if(context->TimeStamp>m_TimeChanged)
 	return 0;
 auto lng=context->Language;
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print(Id);
 size+=writer.Print("=");
-size+=writer.Print(hVariable->ToString(lng));
+size+=writer.Print(m_Variable->ToString(lng));
 size+=writer.Print(";");
 return size;
 }
@@ -104,10 +104,10 @@ auto lng=context->Language;
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=WebVariable::WriteAttributesToStream(stream, context);
-if(uInputType!=WebInputType::Text)
+if(m_InputType!=WebInputType::Text)
 	{
 	size+=writer.Print(" type=\"");
-	switch(uInputType)
+	switch(m_InputType)
 		{
 		default:
 		case WebInputType::Number:
@@ -124,7 +124,7 @@ if(uInputType!=WebInputType::Text)
 	size+=writer.Print("\"");
 	}
 size+=writer.Print(" value=\"");
-size+=writer.Print(hVariable->ToString(lng));
+size+=writer.Print(m_Variable->ToString(lng));
 size+=writer.Print("\" onchange=\"webInputChanged('");
 size+=writer.Print(Id);
 size+=writer.Print("', this.value)\"");
@@ -138,7 +138,7 @@ return size;
 
 VOID WebInput::OnVariableChanged()
 {
-uTimeChanged=GetTickCount64();
+m_TimeChanged=GetTickCount64();
 Page->Changed(Page);
 }
 

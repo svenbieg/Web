@@ -36,7 +36,7 @@ public:
 
 private:
 	// Common
-	Handle<Sentence> hText;
+	Handle<Sentence> m_Text;
 };
 
 }}

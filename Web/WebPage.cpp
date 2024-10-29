@@ -9,10 +9,11 @@
 // Using
 //=======
 
-#include "Storage/DynamicBuffer.h"
+#include "Storage/Intermediate.h"
 #include "WebEventSource.h"
 #include "WebPage.h"
 
+using namespace Concurrency;
 using namespace Network::Http;
 using namespace Storage;
 using namespace Storage::Streams;
@@ -46,17 +47,16 @@ auto response=context->Response;
 auto accept=request->Properties->Get("Accept");
 if(accept->Contains("text/html"))
 	{
-	Handle<DynamicBuffer> buf=new DynamicBuffer();
+	Handle<Intermediate> buf=new Intermediate();
 	buf->SetFormat(StreamFormat::UTF8);
 	this->WriteToStream(buf, context);
-	buf->Seek(0);
 	response->Content=buf;
 	response->Status=HttpStatus::Ok;
 	}
 if(accept->Contains("text/event-stream"))
 	{
 	auto session=context->Session;
-	ScopedLock lock(session->CriticalSection);
+	ScopedLock lock(session->Mutex);
 	if(!session->EventSource)
 		session->EventSource=new WebEventSource(this);
 	lock.Unlock();

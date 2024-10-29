@@ -40,7 +40,7 @@ public:
 
 private:
 	// Common
-	static Handle<KeyMap> hKeys;
+	static Handle<KeyMap> m_Keys;
 };
 
 }}

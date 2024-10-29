@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Network">
+      <UniqueIdentifier>{a5da9d8d-de50-46c8-82ee-6f9c50ce35ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Http">
+      <UniqueIdentifier>{46d4bebc-3366-408f-aa8d-463605e2e82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Web">
+      <UniqueIdentifier>{66b2b158-44a4-43ad-98ae-3fb3e75861f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Https">
+      <UniqueIdentifier>{78c15c79-b12a-4f80-85a2-d8b18f459a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Html">
+      <UniqueIdentifier>{d33f0239-ba06-45a8-a910-fe067808054f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Html\Elements">
+      <UniqueIdentifier>{a9742046-3abc-469f-80f5-eb86d9faf692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Html\Elements\Tables">
+      <UniqueIdentifier>{ea03526a-3d81-485f-b3ac-b15a73bb7393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Web\Elements">
+      <UniqueIdentifier>{ad195b78-25f2-4c03-8e4a-d6b9cc827a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Web\Elements\Graphs">
+      <UniqueIdentifier>{ef26b6da-1e58-4b08-bfc8-3dd925d3a6d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Web\Elements\Tables">
+      <UniqueIdentifier>{2504e2f6-2773-43e8-8e6d-ca1b7b6737f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Web\Security">
+      <UniqueIdentifier>{ea7ab401-8753-4dd6-8386-284e206aa71c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Java">
+      <UniqueIdentifier>{6b6328f3-cf41-443f-8de3-0ffcc07b81c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Json">
+      <UniqueIdentifier>{1816125e-cbb6-4dc7-8e29-b20dee88d1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{be7139cf-20ab-4fec-bd79-ae84515c4fa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Strings">
+      <UniqueIdentifier>{f5b824fb-58a3-4420-93e2-bbb73c8170a9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpClient.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpConnection.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpHelper.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpMessage.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpRequest.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpResponse.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpServer.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebDirectory.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebPage.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpParameters.cpp">
+      <Filter>Network\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebContext.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebServer.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Https\HttpsServer.cpp">
+      <Filter>Network\Https</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Network\Https\HttpsClient.cpp">
+      <Filter>Network\Https</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\HtmlDocument.cpp">
+      <Filter>Html</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlNode.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlCell.cpp">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlTable.cpp">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlRow.cpp">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlCaption.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLink.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlBreak.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLabel.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlElement.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebGraph.cpp">
+      <Filter>Web\Elements\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebAxis.cpp">
+      <Filter>Web\Elements\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebDataRow.cpp">
+      <Filter>Web\Elements\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebLog.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebGrid.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlText.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebLabel.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebControl.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebButton.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebVariable.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebInput.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\Tables\WebTable.cpp">
+      <Filter>Web\Elements\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebParagraph.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebSite.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlHead.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Security\GoogleToken.cpp">
+      <Filter>Web\Security</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Security\GoogleKey.cpp">
+      <Filter>Web\Security</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebSession.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebAccount.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\WebEventSource.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlImage.cpp">
+      <Filter>Html\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Web\Elements\WebLogin.cpp">
+      <Filter>Web\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlColumn.cpp">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Url.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Java\JavaScript.cpp">
+      <Filter>Java</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Json\JsonElement.cpp">
+      <Filter>Json</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpClient.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpConnection.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpHelper.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpMessage.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpRequest.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpResponse.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpServer.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebDirectory.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebPage.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpParameters.h">
+      <Filter>Network\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebContext.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebServer.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Https\HttpsServer.h">
+      <Filter>Network\Https</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Network\Https\HttpsClient.h">
+      <Filter>Network\Https</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\HtmlDocument.h">
+      <Filter>Html</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlElement.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlNode.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlCell.h">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlTable.h">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlRow.h">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlCaption.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLink.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlBreak.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlLabel.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebGraph.h">
+      <Filter>Web\Elements\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebAxis.h">
+      <Filter>Web\Elements\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Graphs\WebDataRow.h">
+      <Filter>Web\Elements\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebLog.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebGrid.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlText.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebLabel.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebControl.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebButton.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebVariable.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebInput.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\Tables\WebTable.h">
+      <Filter>Web\Elements\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebParagraph.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebSite.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlHead.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Security\GoogleToken.h">
+      <Filter>Web\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Security\GoogleKey.h">
+      <Filter>Web\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebSession.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebAccount.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\WebEventSource.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\HtmlImage.h">
+      <Filter>Html\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Web\Elements\WebLogin.h">
+      <Filter>Web\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Html\Elements\Tables\HtmlColumn.h">
+      <Filter>Html\Elements\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Url.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Java\JavaScript.h">
+      <Filter>Java</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Json\JsonElement.h">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Strings\WebLog.h">
+      <Filter>Resources\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Strings\WebLogin.h">
+      <Filter>Resources\Strings</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

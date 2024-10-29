@@ -46,7 +46,7 @@ graph->Rows->Add(this);
 
 SIZE_T WebDataRow::WriteToStream(OutputStream* stream, INT offset, UINT div, INT min, INT max)
 {
-div=MAX(div, 1);
+div=Max(div, 1u);
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print("[ ");

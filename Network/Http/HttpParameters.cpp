@@ -38,7 +38,7 @@ HttpParameters::HttpParameters()
 
 VOID HttpParameters::Set(LPCTSTR params)
 {
-cMap.clear();
+m_Map.clear();
 LPCTSTR str=params;
 while(1)
 	{
@@ -53,11 +53,11 @@ while(1)
 		{
 		Handle<String> value=new String(pos, str);
 		str+=pos+1;
-		cMap.set(key, value);
+		m_Map.set(key, value);
 		continue;
 		}
 	Handle<String> value=new String(str);
-	cMap.set(key, value);
+	m_Map.set(key, value);
 	break;
 	}
 }

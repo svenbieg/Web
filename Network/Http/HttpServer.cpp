@@ -34,9 +34,9 @@ HttpServer::HttpServer()
 
 VOID HttpServer::Listen(WORD port)
 {
-hSocket=new TcpSocket();
-hSocket->Listen(port);
-hListenTask=CreateTask(this, &HttpServer::DoListen);
+m_Socket=new TcpSocket();
+m_Socket->Listen(port);
+m_ListenTask=CreateTask(this, &HttpServer::DoListen);
 }
 
 
@@ -49,7 +49,7 @@ VOID HttpServer::DoListen()
 auto task=GetCurrentTask();
 while(!task->Cancelled)
 	{
-	Handle<TcpSocket> tcp_sock=hSocket->Accept();
+	Handle<TcpSocket> tcp_sock=m_Socket->Accept();
 	if(!tcp_sock)
 		break;
 	Handle<HttpConnection> http_con=new HttpConnection(tcp_sock);

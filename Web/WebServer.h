@@ -57,11 +57,11 @@ private:
 	VOID DoPost(Handle<WebContext> Context);
 	VOID OnClockHour();
 	VOID OnConnectionReceived(Handle<HttpConnection> Connection);
-	Mutex cMutex;
-	WebSessionMap cSessions;
-	Handle<HttpServer> hHttpServer;
-	Handle<HttpsServer> hHttpsServer;
-	WebSite* pWebSite;
+	Handle<HttpServer> m_HttpServer;
+	Handle<HttpsServer> m_HttpsServer;
+	Concurrency::Mutex m_Mutex;
+	WebSessionMap m_Sessions;
+	WebSite* m_WebSite;
 };
 
 }

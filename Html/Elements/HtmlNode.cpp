@@ -48,7 +48,7 @@ new HtmlText(this, element);
 
 VOID HtmlNode::SetFlag(HtmlNodeFlags flag, BOOL set)
 {
-::SetFlag(uFlags, flag, set);
+::SetFlag(m_Flags, flag, set);
 }
 
 SIZE_T HtmlNode::WriteToStream(OutputStream* stream, WebContext* context, UINT level)
@@ -73,9 +73,9 @@ HtmlElement(doc, parent),
 Class(nullptr),
 Id(id),
 Style(nullptr),
-pTag(tag),
-uBreaks(0),
-uFlags(HtmlNodeFlags::None)
+m_Breaks(0),
+m_Flags(HtmlNodeFlags::None),
+m_Tag(tag)
 {
 Attributes=new AttributeMap();
 Elements=new ElementList();
@@ -123,19 +123,19 @@ SIZE_T HtmlNode::WriteClosureToStream(OutputStream* stream, UINT level)
 {
 SIZE_T size=0;
 StreamWriter writer(stream);
-if(GetFlag(uFlags, HtmlNodeFlags::MultiLine))
+if(GetFlag(m_Flags, HtmlNodeFlags::MultiLine))
 	{
 	writer.Print("\r\n");
 	size+=writer.PrintChar(' ', level*2);
 	}
 size+=writer.Print("</");
-size+=writer.Print(pTag);
+size+=writer.Print(m_Tag);
 size+=writer.Print(">");
-if(uBreaks>0)
+if(m_Breaks>0)
 	{
 	size+=writer.Print("\r\n");
 	size+=writer.PrintChar(' ', level*2);
-	for(UINT u=0; u<uBreaks; u++)
+	for(UINT u=0; u<m_Breaks; u++)
 		size+=writer.Print("<br />");
 	}
 return size;
@@ -159,7 +159,7 @@ StreamWriter writer(stream);
 size+=writer.Print("\r\n");
 size+=writer.PrintChar(' ', level*2);
 size+=writer.PrintChar('<');
-size+=writer.Print(pTag);
+size+=writer.Print(m_Tag);
 return size;
 }
 

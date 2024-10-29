@@ -47,20 +47,20 @@ public:
 
 	// Types
 	typedef Function<SIZE_T, OutputStream*, WebContext*> JavaFunction;
-	typedef Collections::List<Handle<JavaFunction>> JavaFunctionList;
+	typedef Collections::List<JavaFunction> JavaFunctionList;
 
 	// Con-/Destructors
 	JavaScript();
 
 	// Common
 	VOID Add(LPCSTR Global);
-	VOID Add(Handle<JavaFunction> Function);
+	VOID Add(JavaFunction Function);
 	SIZE_T WriteToStream(OutputStream* Stream, WebContext* Context);
 
 private:
 	// Common
-	Handle<JavaFunctionList> hFunctions;
-	Handle<GlobalsList> hGlobals;
+	Handle<JavaFunctionList> m_Functions;
+	Handle<GlobalsList> m_Globals;
 };
 
 }

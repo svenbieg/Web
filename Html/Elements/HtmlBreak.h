@@ -35,7 +35,7 @@ public:
 
 private:
 	// Common
-	UINT uCount;
+	UINT m_Count;
 };
 
 }}
