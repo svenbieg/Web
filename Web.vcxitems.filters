@@ -46,6 +46,9 @@
     <Filter Include="Resources\Strings">
       <UniqueIdentifier>{f5b824fb-58a3-4420-93e2-bbb73c8170a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Certificates">
+      <UniqueIdentifier>{e01fc24e-2af4-418a-871d-c181b1622f21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Network\Http\HttpClient.cpp">
@@ -351,6 +354,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Strings\WebLogin.h">
       <Filter>Resources\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Certificates\Google.h">
+      <Filter>Resources\Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Certificates\Store.h">
+      <Filter>Resources\Certificates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

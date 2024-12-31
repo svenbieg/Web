@@ -11,8 +11,8 @@
 
 #include "Collections/List.h"
 #include "Collections/Map.h"
+#include "Culture/Sentence.h"
 #include "HtmlElement.h"
-#include "Sentence.h"
 
 
 //===========
@@ -44,10 +44,17 @@ public:
 	// Using
 	using AttributeMap=Collections::Map<Handle<String>, LPCSTR>;
 	using ElementList=Collections::List<Handle<HtmlElement>>;
+	using Sentence=Culture::Sentence;
 
 	// Con-/Destructors
-	HtmlNode(HtmlDocument* Document, LPCSTR Tag, Handle<String> Id=nullptr);
-	HtmlNode(HtmlNode* Parent, LPCSTR Tag, Handle<String> Id=nullptr);
+	static inline Handle<HtmlNode> Create(HtmlDocument* Document, LPCSTR Tag, Handle<String> Id=nullptr)
+		{
+		return new HtmlNode(Document, nullptr, Tag, Id);
+		}
+	static inline Handle<HtmlNode> Create(HtmlNode* Parent, LPCSTR Tag, Handle<String> Id=nullptr)
+		{
+		return new HtmlNode(Parent->Document, Parent, Tag, Id);
+		}
 
 	// Common
 	VOID Add(Handle<Sentence> Element);
@@ -62,7 +69,8 @@ public:
 
 protected:
 	// Con-/Destructors
-	HtmlNode(HtmlDocument* Document, HtmlNode* Parent, LPCSTR Tag, Handle<String> Id);
+	HtmlNode(HtmlNode* Parent, LPCSTR Tag, Handle<String> Id=nullptr): HtmlNode(Parent->Document, Parent, Tag, Id) {}
+	HtmlNode(HtmlDocument* Document, HtmlNode* Parent, LPCSTR Tag, Handle<String> Id=nullptr);
 
 	// Common
 	virtual SIZE_T WriteAttributesToStream(OutputStream* Stream, WebContext* Context);

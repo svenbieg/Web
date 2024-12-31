@@ -34,9 +34,6 @@ ConnectionClosed=444,
 InternalServerError=500
 };
 
-LPCSTR HttpStatusToString(HttpStatus Status);
-HttpStatus HttpStatusFromString(LPCTSTR Status);
-
 
 //=============
 // HTTP-Method
@@ -51,15 +48,21 @@ Post,
 Unknown
 };
 
-LPCSTR HttpMethodToString(HttpMethod Method);
-HttpMethod HttpMethodFromString(LPCTSTR Method);
 
+//=============
+// HTTP-Helper
+//=============
 
-//===========
-// HTTP-Path
-//===========
-
-UINT HttpPathLength(LPCTSTR Buffer, UINT Length=0);
-Handle<String> HttpPathToString(LPCTSTR Buffer, UINT Length=0);
+class HttpHelper
+{
+public:
+	// Common
+	static LPCSTR MethodToString(HttpMethod Method);
+	static HttpMethod MethodFromString(LPCTSTR Method);
+	static UINT PathLength(LPCTSTR Buffer, UINT Length=0);
+	static Handle<String> PathToString(LPCTSTR Buffer, UINT Length=0);
+	static LPCSTR StatusToString(HttpStatus Status);
+	static HttpStatus StatusFromString(LPCTSTR Status);
+};
 
 }}

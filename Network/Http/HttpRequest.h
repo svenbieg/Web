@@ -33,7 +33,7 @@ public:
 	using LanguageCode=Culture::LanguageCode;
 
 	// Con-/Destructors
-	HttpRequest();
+	static inline Handle<HttpRequest> Create() { return new HttpRequest(); }
 
 	// Common
 	VOID Clear()override;
@@ -46,6 +46,10 @@ public:
 	SIZE_T ReadFromStream(InputStream* Stream)override;
 	SIZE_T WriteHeaderToStream(OutputStream* Stream);
 	SIZE_T WriteToStream(OutputStream* Stream)override;
+
+private:
+	// Con-/Destructors
+	HttpRequest();
 };
 
 }}

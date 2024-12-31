@@ -36,17 +36,26 @@ public:
 	using Workspace=Storage::Workspace;
 
 	// Con-/Destructors
-	WebSite(Handle<String> HostName=nullptr);
+	~WebSite() { s_Current=nullptr; }
+	static inline Handle<WebSite> Create(Handle<String> HostName=nullptr)
+		{
+		return new WebSite(HostName);
+		}
+	static inline WebSite* Get() { return s_Current; }
 
 	// Common
 	Handle<WebAccountMap> Accounts;
-	static Handle<WebSite> Current;
 	Handle<Workspace> Protected;
 	Handle<Workspace> Public;
+
+protected:
+	// Con-/Destructors
+	WebSite(Handle<String> HostName=nullptr);
 
 private:
 	// Common
 	Handle<WebServer> m_WebServer;
+	static WebSite* s_Current;
 };
 
 }

@@ -9,10 +9,12 @@
 // Using
 //=======
 
+#include "Network/Dns/DnsClient.h"
+#include "Network/Tls/TlsSocket.h"
 #include "HttpsClient.h"
 
+using namespace Network::Dns;
 using namespace Network::Http;
-using namespace Network::Tcp;
 using namespace Network::Tls;
 
 
@@ -28,15 +30,15 @@ namespace Network {
 // Common
 //========
 
-Handle<HttpConnection> HttpsClient::Connect(Handle<String> host_name, WORD port)
+Handle<HttpConnection> HttpsClient::Connect(Handle<String> url, WORD port)
 {
-Handle<TcpSocket> tcp_sock=new TcpSocket();
-if(!tcp_sock->Connect(host_name, port))
-	return nullptr;
-Handle<TlsSocket> tls_sock=new TlsSocket(tcp_sock);
-if(!tls_sock->Handshake(host_name))
-	return nullptr;
-return new HttpConnection(tls_sock);
+auto dns_client=DnsClient::Create();
+auto host_ip=dns_client->Lookup(url);
+auto host_name=PathHelper::GetHostName(url);
+auto tls_socket=TlsSocket::Create();
+auto tls_con=tls_socket->Connect(host_ip, port);
+tls_con->Handshake(host_name);
+return HttpConnection::Create(tls_con);
 }
 
 }}

@@ -36,14 +36,24 @@ public:
 	using ColumnList=Collections::List<Handle<HtmlColumn>>;
 
 	// Con-/Destructors
-	HtmlTable(HtmlNode* Parent);
+	static inline Handle<HtmlTable> Create(HtmlNode* Parent, Handle<Sentence> Caption=nullptr)
+		{
+		return new HtmlTable(Parent, Caption);
+		}
 
 	// Common
 	VOID AddColumn(LPCSTR Style=nullptr);
 	Handle<HtmlRow> AddRow();
-	Handle<Sentence> Caption;
 	Handle<ColumnList> Columns;
 	SIZE_T WriteToStream(OutputStream* Stream, WebContext* Context, UINT Level)override;
+
+protected:
+	// Con-/Destructors
+	HtmlTable(HtmlNode* Parent, Handle<Sentence> Caption=nullptr);
+
+private:
+	// Common
+	Handle<Sentence> m_Caption;
 };
 
 }}}

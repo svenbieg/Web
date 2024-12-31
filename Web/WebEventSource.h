@@ -5,6 +5,13 @@
 #pragma once
 
 
+//=======
+// Using
+//=======
+
+#include "Concurrency/Signal.h"
+
+
 //===========
 // Namespace
 //===========
@@ -23,13 +30,6 @@ namespace Elements
 {
 class WebVariable;
 }
-
-
-//=========
-// Scripts
-//=========
-
-extern LPCSTR WebEventSourceScript;
 
 
 //=======
@@ -56,13 +56,16 @@ public:
 	using WebVariable=Web::Elements::WebVariable;
 
 	// Con-/Destructors
-	WebEventSource(WebPage* Page);
 	~WebEventSource();
+	static inline Handle<WebEventSource> Create(WebPage* Page) { return new WebEventSource(Page); }
 
 	// Common
 	VOID RequestGet(Handle<WebContext> Context);
 
 private:
+	// Con-/Destructors
+	WebEventSource(WebPage* Page);
+
 	// Common
 	VOID DoResponse();
 	VOID OnPageChanged();

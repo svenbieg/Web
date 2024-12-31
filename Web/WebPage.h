@@ -35,7 +35,7 @@ public:
 	using WebVariable=Elements::WebVariable;
 
 	// Con-/Destructors
-	WebPage();
+	static inline Handle<WebPage> Create() { return new WebPage(); }
 
 	// Common
 	Event<WebPage> Changed;
@@ -43,6 +43,10 @@ public:
 	virtual VOID RequestGet(Handle<WebContext> Context);
 	virtual VOID RequestNotify(Handle<WebContext> Context);
 	virtual VOID RequestPost(Handle<WebContext> Context);
+
+protected:
+	// Con-/Destructors
+	WebPage();
 };
 
 }

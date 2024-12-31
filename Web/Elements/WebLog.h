@@ -33,14 +33,20 @@ public:
 	using Log=Collections::Log;
 
 	// Con-/Destructors
-	WebLog(HtmlNode* Parent, Handle<String> Id, Handle<Log> Log);
 	~WebLog();
+	static inline Handle<WebLog> Create(HtmlNode* Parent, Handle<String> Id, Handle<Log> Log)
+		{
+		return new WebLog(Parent, Id, Log);
+		}
 
 	// Common
 	SIZE_T UpdateToStream(OutputStream* Stream, WebContext* Context)override;
 	SIZE_T WriteToStream(OutputStream* Stream, WebContext* Context, UINT Level)override;
 
 private:
+	// Con-/Destructors
+	WebLog(HtmlNode* Parent, Handle<String> Id, Handle<Log> Log);
+
 	// Common
 	VOID OnClearButtonClicked();
 	VOID OnLogChanged();

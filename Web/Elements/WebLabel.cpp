@@ -29,14 +29,6 @@ namespace Web {
 // Con-/Destructors
 //==================
 
-WebLabel::WebLabel(HtmlNode* parent, Handle<Variable> var, Handle<String> id):
-WebVariable(parent, "label", id? id: var->Name),
-m_Variable(var),
-m_TimeChanged(0)
-{
-m_Variable->Changed.Add(this, &WebLabel::OnVariableChanged);
-}
-
 WebLabel::~WebLabel()
 {
 m_Variable->Changed.Remove(this);
@@ -74,6 +66,19 @@ StreamWriter writer(stream);
 size+=writer.Print(m_Variable->ToString(lng));
 size+=WebVariable::WriteElementsToStream(stream, context, level);
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+WebLabel::WebLabel(HtmlNode* parent, Handle<Variable> var, Handle<String> id):
+WebVariable(parent, "label", id? id: var->Name),
+m_Variable(var),
+m_TimeChanged(0)
+{
+m_Variable->Changed.Add(this, &WebLabel::OnVariableChanged);
 }
 
 

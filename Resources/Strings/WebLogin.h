@@ -1,4 +1,4 @@
-//============
+﻿//============
 // WebLogin.h
 //============
 
@@ -26,8 +26,8 @@ namespace Resources {
 
 constexpr STRING STR_WEB_LOGIN[]=
 	{
-	{ LNG::DE, "Anmelden" },
-	{ LNG::EN, "Login" },
+	{ LNG::DE, L"Anmelden" },
+	{ LNG::EN, L"Login" },
 	{ LNG::None, nullptr }
 	};
 

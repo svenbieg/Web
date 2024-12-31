@@ -24,18 +24,6 @@ namespace Html {
 	namespace Elements {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HtmlBreak::HtmlBreak(HtmlNode* parent, UINT count):
-HtmlElement(parent),
-m_Count(count)
-{
-parent->SetFlag(HtmlNodeFlags::MultiLine);
-}
-
-
 //========
 // Common
 //========
@@ -49,6 +37,18 @@ size+=writer.PrintChar(' ', level*2);
 for(UINT u=0; u<m_Count; u++)
 	size+=writer.Print("<br />");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HtmlBreak::HtmlBreak(HtmlNode* parent, UINT count):
+HtmlElement(parent),
+m_Count(count)
+{
+parent->SetFlag(HtmlNodeFlags::MultiLine);
 }
 
 }}

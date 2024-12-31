@@ -23,18 +23,6 @@ using namespace Storage::Streams;
 namespace Html {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HtmlDocument::HtmlDocument():
-HtmlElement(this)
-{
-Head=new HtmlHead(this);
-Body=new HtmlNode(this, "body");
-}
-
-
 //========
 // Common
 //========
@@ -46,12 +34,24 @@ SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print("<!DOCTYPE html>\r\n\r\n");
 size+=writer.Print("<html lang=\"");
-size+=writer.Print(LanguageCodeToString(lng));
+size+=writer.Print(Language::ToStringCode(lng));
 size+=writer.Print("\">\r\n\r\n");
 size+=Head->WriteToStream(stream, context, 0);
 size+=Body->WriteToStream(stream, context, 0);
 size+=writer.Print("\r\n</html>\r\n");
 return size;
+}
+
+
+//============================
+// Con-/Destructors Protected
+//============================
+
+HtmlDocument::HtmlDocument():
+HtmlElement(this)
+{
+Head=HtmlHead::Create(this);
+Body=HtmlNode::Create(this, "body");
 }
 
 }

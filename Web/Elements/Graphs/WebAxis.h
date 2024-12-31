@@ -10,7 +10,7 @@
 //=======
 
 #include "Collections/Map.h"
-#include "Sentence.h"
+#include "Culture/Sentence.h"
 
 
 //===========
@@ -28,18 +28,22 @@ namespace Web {
 
 class WebAxis: public Object
 {
-private:
+public:
 	// Using
+	using Sentence=Culture::Sentence;
 	using PointMap=Collections::Map<INT, Handle<Sentence>>;
 
-public:
 	// Con-/Destructors
-	WebAxis();
+	static inline Handle<WebAxis> Create() { return new WebAxis(); }
 
 	// Common
 	Handle<Sentence> Name;
 	Handle<PointMap> Points;
 	Handle<Sentence> Unit;
+
+private:
+	// Con-/Destructors
+	WebAxis();
 };
 
 }}}

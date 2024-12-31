@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Core/Application.h"
+#include "Concurrency/DispatchedQueue.h"
 #include "Storage/Streams/StreamWriter.h"
 #include "Storage/Intermediate.h"
 #include "Web/Elements/WebVariable.h"
@@ -17,7 +17,6 @@
 #include "WebPage.h"
 
 using namespace Concurrency;
-using namespace Core;
 using namespace Network::Http;
 using namespace Storage;
 using namespace Storage::Streams;
@@ -34,7 +33,7 @@ namespace Web {
 // Scripts
 //=========
 
-LPCSTR WebEventSourceScript=
+constexpr CHAR STR_EVENT_SOURCE_SCRIPT[]=
 "\r\n"
 "function webPageUpdateElements(arg)\r\n"
 "{\r\n"
@@ -77,14 +76,6 @@ LPCSTR WebEventSourceScript=
 // Con-/Destructors
 //==================
 
-WebEventSource::WebEventSource(WebPage* page):
-m_Flags(WebEventSourceFlags::None),
-m_WebPage(page)
-{
-page->AddScript(WebEventSourceScript);
-page->Changed.Add(this, &WebEventSource::OnPageChanged);
-}
-
 WebEventSource::~WebEventSource()
 {
 m_WebPage->Changed.Remove(this);
@@ -101,16 +92,16 @@ ScopedLock lock(m_Mutex);
 auto response=context->Response;
 while(1)
 	{
-	if(GetFlag(m_Flags, WebEventSourceFlags::Closing))
+	if(FlagHelper::Get(m_Flags, WebEventSourceFlags::Closing))
 		{
 		response->Status=HttpStatus::ConnectionClosed;
 		return;
 		}
-	if(GetFlag(m_Flags, WebEventSourceFlags::Event))
+	if(FlagHelper::Get(m_Flags, WebEventSourceFlags::Event))
 		{
-		ClearFlag(m_Flags, WebEventSourceFlags::Event);
+		FlagHelper::Clear(m_Flags, WebEventSourceFlags::Event);
 		auto lng=context->Language;
-		Handle<Intermediate> buf=new Intermediate();
+		auto buf=Intermediate::Create();
 		buf->SetFormat(StreamFormat::UTF8);
 		StreamWriter writer(buf);
 		writer.Print("data: ");
@@ -128,10 +119,23 @@ while(1)
 		response->Status=HttpStatus::Ok;
 		return;
 		}
-	SetFlag(m_Flags, WebEventSourceFlags::Waiting);
+	FlagHelper::Set(m_Flags, WebEventSourceFlags::Waiting);
 	m_Signal.Wait(lock);
-	ClearFlag(m_Flags, WebEventSourceFlags::Waiting);
+	FlagHelper::Clear(m_Flags, WebEventSourceFlags::Waiting);
 	}
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+WebEventSource::WebEventSource(WebPage* page):
+m_Flags(WebEventSourceFlags::None),
+m_WebPage(page)
+{
+page->AddScript(STR_EVENT_SOURCE_SCRIPT);
+page->Changed.Add(this, &WebEventSource::OnPageChanged);
 }
 
 
@@ -147,10 +151,10 @@ m_Signal.Trigger();
 VOID WebEventSource::OnPageChanged()
 {
 ScopedLock lock(m_Mutex);
-if(!GetFlag(m_Flags, WebEventSourceFlags::Event))
+if(!FlagHelper::Get(m_Flags, WebEventSourceFlags::Event))
 	{
-	SetFlag(m_Flags, WebEventSourceFlags::Event);
-	Application::Current->Dispatch(this, &WebEventSource::DoResponse);
+	FlagHelper::Set(m_Flags, WebEventSourceFlags::Event);
+	DispatchedQueue::Append(this, &WebEventSource::DoResponse);
 	}
 }
 

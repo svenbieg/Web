@@ -24,9 +24,9 @@ namespace Web {
 	namespace Elements {
 
 
-//==================
-// Con-/Destructors
-//==================
+//============================
+// Con-/Destructors Protected
+//============================
 
 WebParagraph::WebParagraph(HtmlNode* parent, Handle<Sentence> caption):
 HtmlNode(parent, "div")
@@ -34,7 +34,7 @@ HtmlNode(parent, "div")
 Class="paragraph";
 Document->AddStyle("div.paragraph", "padding-bottom:24px;");
 if(caption)
-	new HtmlCaption(this, caption);
+	HtmlCaption::Create(this, caption);
 }
 
 }}

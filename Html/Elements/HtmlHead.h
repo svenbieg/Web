@@ -34,7 +34,7 @@ public:
 	using StyleList=Collections::Map<Handle<String>, LPCSTR>;
 
 	// Con-/Destructors
-	HtmlHead(HtmlDocument* Document);
+	static inline Handle<HtmlHead> Create(HtmlDocument* Document) { return new HtmlHead(Document); }
 
 	// Common
 	LPCSTR Icon;
@@ -43,6 +43,10 @@ public:
 	Handle<Sentence> Title;
 	SIZE_T WriteToStream(OutputStream* Stream, WebContext* Context, UINT Level=0)override;
 	Event<HtmlHead, OutputStream*, SIZE_T&, LanguageCode> WritingScript;
+
+private:
+	// Con-/Destructors
+	HtmlHead(HtmlDocument* Document);
 };
 
 }}

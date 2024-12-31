@@ -21,92 +21,24 @@ namespace Network {
 	namespace Http {
 
 
-//=============
-// HTTP-Status
-//=============
+//========
+// Common
+//========
 
-HttpStatus HttpStatusFromString(LPCTSTR status)
+HttpMethod HttpHelper::MethodFromString(LPCTSTR method)
 {
-if(StringCompare(status, "Ok", 0, false)==0)
-	return HttpStatus::Ok;
-if(StringCompare(status, "No Content", 0, false)==0)
-	return HttpStatus::NoContent;
-if(StringCompare(status, "Moved Permanently", 0, false)==0)
-	return HttpStatus::MovedPermanently;
-if(StringCompare(status, "Moved Temporary", 0, false)==0)
-	return HttpStatus::MovedTemporary;
-if(StringCompare(status, "Permanent Redirect", 0, false)==0)
-	return HttpStatus::PermanentRedirect;
-if(StringCompare(status, "Bad Request", 0, false)==0)
-	return HttpStatus::BadRequest;
-if(StringCompare(status, "Forbidden", 0, false)==0)
-	return HttpStatus::Forbidden;
-if(StringCompare(status, "Site Not Found", 0, false)==0)
-	return HttpStatus::SiteNotFound;
-if(StringCompare(status, "Request Timeout", 0, false)==0)
-	return HttpStatus::RequestTimeout;
-if(StringCompare(status, "Length Required", 0, false)==0)
-	return HttpStatus::LengthRequired;
-if(StringCompare(status, "Connection Closed", 0, false)==0)
-	return HttpStatus::ConnectionClosed;
-if(StringCompare(status, "Internal Server Error", 0, false)==0)
-	return HttpStatus::InternalServerError;
-return HttpStatus::None;
-}
-
-LPCSTR HttpStatusToString(HttpStatus status)
-{
-switch(status)
-	{
-	case HttpStatus::Ok:
-		return "Ok";
-	case HttpStatus::NoContent:
-		return "No Content";
-	case HttpStatus::MovedPermanently:
-		return "Moved Permanently";
-	case HttpStatus::MovedTemporary:
-		return "Moved Temporary";
-	case HttpStatus::PermanentRedirect:
-		return "Permanent Redirect";
-	case HttpStatus::BadRequest:
-		return "Bad Request";
-	case HttpStatus::Forbidden:
-		return "Forbidden";
-	case HttpStatus::SiteNotFound:
-		return "Site Not Found";
-	case HttpStatus::RequestTimeout:
-		return "Request Timeout";
-	case HttpStatus::LengthRequired:
-		return "Length Required";
-	case HttpStatus::ConnectionClosed:
-		return "Connection Closed";
-	case HttpStatus::InternalServerError:
-		return "Internal Server Error";
-	default:
-		return nullptr;
-	}
-return nullptr;
-}
-
-
-//=============
-// HTTP-Method
-//=============
-
-HttpMethod HttpMethodFromString(LPCTSTR method)
-{
-if(StringCompare(method, "NOTIFY", 0, false)==0)
+if(StringHelper::Compare(method, "NOTIFY", 0, false)==0)
 	return HttpMethod::Notify;
-if(StringCompare(method, "GET", 0, false)==0)
+if(StringHelper::Compare(method, "GET", 0, false)==0)
 	return HttpMethod::Get;
-if(StringCompare(method, "SET", 0, false)==0)
+if(StringHelper::Compare(method, "SET", 0, false)==0)
 	return HttpMethod::Set;
-if(StringCompare(method, "POST", 0, false)==0)
+if(StringHelper::Compare(method, "POST", 0, false)==0)
 	return HttpMethod::Post;
 return HttpMethod::Unknown;
 }
 
-LPCSTR HttpMethodToString(HttpMethod method)
+LPCSTR HttpHelper::MethodToString(HttpMethod method)
 {
 switch(method)
 	{
@@ -124,12 +56,7 @@ switch(method)
 return nullptr;
 }
 
-
-//===========
-// HTTP-Path
-//===========
-
-UINT HttpPathLength(LPCTSTR str, UINT len)
+UINT HttpHelper::PathLength(LPCTSTR str, UINT len)
 {
 if(len==0)
 	len=UINT_MAX;
@@ -145,25 +72,30 @@ for(UINT u=0; u<len; u++)
 return ret;
 }
 
-Handle<String> HttpPathToString(LPCTSTR str, UINT len)
+Handle<String> HttpHelper::PathToString(LPCTSTR path, UINT len)
 {
-UINT path_len=HttpPathLength(str, len);
-Handle<String> hstr=new String(path_len+1, nullptr);
-LPTSTR pdst=(LPTSTR)hstr->Begin();
-UINT udst=0;
+UINT path_len=PathLength(path, len);
+auto str=String::Create(path_len+1, nullptr);
+LPTSTR dst=(LPTSTR)str->Begin();
 for(UINT u=0; u<len; u++)
 	{
-	TCHAR c=str[u];
+	TCHAR c=path[u];
 	if(c=='%')
 		{
-		c=(BYTE)((CharToHex(str[u+1])<<8)|CharToHex(str[u+2]));
+		UINT hex1=0;
+		CharHelper::ToDigit(path[u+1], &hex1, 16);
+		UINT hex2=0;
+		CharHelper::ToDigit(path[u+2], &hex2, 16);
+		c=(BYTE)((hex1<<8)|hex2);
 		u+=2;
 		if(c=='\303')
 			{
-			TCHAR c1=str[u+1];
+			TCHAR c1=path[u+1];
 			if(c1=='%')
 				{
-				c1=(BYTE)((CharToHex(str[u+2])<<8)|CharToHex(str[u+3]));
+				CharHelper::ToDigit(path[u+2], &hex1, 16);
+				CharHelper::ToDigit(path[u+3], &hex2, 16);
+				c1=(BYTE)((hex1<<8)|hex2);
 				if(c1=='\204')
 					{
 					c='\304'; // Ä
@@ -200,10 +132,73 @@ for(UINT u=0; u<len; u++)
 				}
 			}
 		}
-	pdst[udst++]=c;
+	*dst++=c;
 	}
-pdst[udst]=0;
-return hstr;
+*dst++=0;
+return str;
+}
+
+HttpStatus HttpHelper::StatusFromString(LPCTSTR status)
+{
+if(StringHelper::Compare(status, "Ok", 0, false)==0)
+	return HttpStatus::Ok;
+if(StringHelper::Compare(status, "No Content", 0, false)==0)
+	return HttpStatus::NoContent;
+if(StringHelper::Compare(status, "Moved Permanently", 0, false)==0)
+	return HttpStatus::MovedPermanently;
+if(StringHelper::Compare(status, "Moved Temporary", 0, false)==0)
+	return HttpStatus::MovedTemporary;
+if(StringHelper::Compare(status, "Permanent Redirect", 0, false)==0)
+	return HttpStatus::PermanentRedirect;
+if(StringHelper::Compare(status, "Bad Request", 0, false)==0)
+	return HttpStatus::BadRequest;
+if(StringHelper::Compare(status, "Forbidden", 0, false)==0)
+	return HttpStatus::Forbidden;
+if(StringHelper::Compare(status, "Site Not Found", 0, false)==0)
+	return HttpStatus::SiteNotFound;
+if(StringHelper::Compare(status, "Request Timeout", 0, false)==0)
+	return HttpStatus::RequestTimeout;
+if(StringHelper::Compare(status, "Length Required", 0, false)==0)
+	return HttpStatus::LengthRequired;
+if(StringHelper::Compare(status, "Connection Closed", 0, false)==0)
+	return HttpStatus::ConnectionClosed;
+if(StringHelper::Compare(status, "Internal Server Error", 0, false)==0)
+	return HttpStatus::InternalServerError;
+return HttpStatus::None;
+}
+
+LPCSTR HttpHelper::StatusToString(HttpStatus status)
+{
+switch(status)
+	{
+	case HttpStatus::Ok:
+		return "Ok";
+	case HttpStatus::NoContent:
+		return "No Content";
+	case HttpStatus::MovedPermanently:
+		return "Moved Permanently";
+	case HttpStatus::MovedTemporary:
+		return "Moved Temporary";
+	case HttpStatus::PermanentRedirect:
+		return "Permanent Redirect";
+	case HttpStatus::BadRequest:
+		return "Bad Request";
+	case HttpStatus::Forbidden:
+		return "Forbidden";
+	case HttpStatus::SiteNotFound:
+		return "Site Not Found";
+	case HttpStatus::RequestTimeout:
+		return "Request Timeout";
+	case HttpStatus::LengthRequired:
+		return "Length Required";
+	case HttpStatus::ConnectionClosed:
+		return "Connection Closed";
+	case HttpStatus::InternalServerError:
+		return "Internal Server Error";
+	default:
+		return nullptr;
+	}
+return nullptr;
 }
 
 }}

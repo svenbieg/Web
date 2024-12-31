@@ -9,7 +9,7 @@
 // Using
 //=======
 
-#include "Collections/List.h"
+#include "Collections/list.hpp"
 #include "Storage/Streams/OutputStream.h"
 #include "Web/WebContext.h"
 #include "Function.h"
@@ -40,17 +40,17 @@ class JavaScript: public Object
 {
 public:
 	// Using
-	using GlobalsList=Collections::List<LPCSTR>;
+	using GlobalsList=Collections::list<LPCSTR>;
 	using HtmlDocument=Html::HtmlDocument;
 	using OutputStream=Storage::Streams::OutputStream;
 	using WebContext=Web::WebContext;
 
 	// Types
-	typedef Function<SIZE_T, OutputStream*, WebContext*> JavaFunction;
-	typedef Collections::List<JavaFunction> JavaFunctionList;
+	typedef Function<SIZE_T(OutputStream*, WebContext*)> JavaFunction;
+	typedef Collections::list<JavaFunction> JavaFunctionList;
 
 	// Con-/Destructors
-	JavaScript();
+	static inline Handle<JavaScript> Create() { return new JavaScript(); }
 
 	// Common
 	VOID Add(LPCSTR Global);
@@ -58,9 +58,12 @@ public:
 	SIZE_T WriteToStream(OutputStream* Stream, WebContext* Context);
 
 private:
+	// Con-/Destructors
+	JavaScript() {}
+
 	// Common
-	Handle<JavaFunctionList> m_Functions;
-	Handle<GlobalsList> m_Globals;
+	JavaFunctionList m_Functions;
+	GlobalsList m_Globals;
 };
 
 }

@@ -9,7 +9,6 @@
 // Using
 //=======
 
-#include "Network/Connection.h"
 #include "Storage/Streams/StreamWriter.h"
 #include "Storage/File.h"
 #include "Storage/FileSize.h"
@@ -30,7 +29,7 @@ namespace Web {
 // Scripts
 //=========
 
-LPCSTR webDirectoryScript=
+constexpr CHAR STR_DIRECTORY_SCRIPT[]=
 "const chunk_size=1024*1024;\r\n\r\n"
 "function sendChunk(file, start)\r\n"
 "{\r\n"
@@ -82,15 +81,6 @@ LPCSTR webDirectoryScript=
 "});\r\n\r\n";
 
 
-//==================
-// Con-/Destructors
-//==================
-
-WebDirectory::WebDirectory(Handle<Directory> dir):
-m_Directory(dir)
-{}
-
-
 //========
 // Common
 //========
@@ -102,7 +92,7 @@ StreamWriter writer(stream);
 size+=writer.Print("<!DOCTYPE html>\r\n");
 size+=writer.Print("<html>\r\n<head>\r\n<title>");
 auto path=m_Directory->GetPath();
-Handle<String> full_path=new String("%s/%s", root->Begin(), path->Begin());
+auto full_path=String::Create("%s/%s", root->Begin(), path->Begin());
 size+=writer.Print(full_path);
 size+=writer.Print("</title>\r\n");
 size+=writer.Print("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n\r\n");
@@ -115,12 +105,12 @@ size+=writer.Print("td.size { text-align:right; }\r\n");
 size+=writer.Print("th { text-align:left; }\r\n");
 size+=writer.Print("</style>\r\n\r\n");
 size+=writer.Print("<script language=\"javascript\" type=\"text/javascript\">\r\n\r\n");
-size+=writer.Print(webDirectoryScript);
+size+=writer.Print(STR_DIRECTORY_SCRIPT);
 size+=writer.Print("</script>\r\n\r\n");
 size+=writer.Print("</head>\r\n\r\n<body>\r\n\r\n<h1>");
 size+=writer.Print(full_path);
 size+=writer.Print("</h1>\r\n\r\n<p>\r\n<table>\r\n");
-auto parent=PathGetDirectory(path->Begin());
+auto parent=PathHelper::GetDirectory(path->Begin());
 if(parent)
 	{
 	size+=writer.Print("  <tr><th><a href=\"/");
@@ -134,7 +124,7 @@ else
 for(auto it=m_Directory->First(); it->HasCurrent(); it->MoveNext())
 	{
 	auto item=it->GetCurrent();
-	auto dir=Convert<Storage::Directory>(item);
+	auto dir=item.As<Storage::Directory>();
 	if(!dir)
 		continue;
 	size+=writer.Print("  <tr>");
@@ -150,9 +140,9 @@ size+=writer.Print("<p>\r\n<table>\r\n");
 for(auto it=m_Directory->First(); it->HasCurrent(); it->MoveNext())
 	{
 	auto item=it->GetCurrent();
-	if(Convert<Storage::Directory>(item))
+	if(item.As<Storage::Directory>())
 		continue;
-	auto file=Convert<File>(item);
+	auto file=item.As<File>();
 	if(!file)
 		continue;
 	if(Failed(file->Create()))

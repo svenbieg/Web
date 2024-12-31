@@ -26,31 +26,18 @@ namespace Html {
 		namespace Tables {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HtmlTable::HtmlTable(HtmlNode* parent):
-HtmlNode(parent, "table")
-{
-Columns=new ColumnList();
-SetFlag(HtmlNodeFlags::MultiLine);
-}
-
-
 //========
 // Common
 //========
 
 VOID HtmlTable::AddColumn(LPCSTR style)
 {
-new HtmlColumn(this, style);
+HtmlColumn::Create(this, style);
 }
 
 Handle<HtmlRow> HtmlTable::AddRow()
 {
-Handle<HtmlRow> row=new HtmlRow(this);
-return row;
+return HtmlRow::Create(this);
 }
 
 SIZE_T HtmlTable::WriteToStream(OutputStream* stream, WebContext* context, UINT level)
@@ -62,12 +49,12 @@ size+=WriteTagToStream(stream, level);
 size+=WriteAttributesToStream(stream, context);
 size+=writer.Print(">");
 UINT child_level=level+1;
-if(Caption)
+if(m_Caption)
 	{
 	size+=writer.Print("\r\n");
 	size+=writer.PrintChar(' ', child_level*2);
 	size+=writer.Print("<caption>");
-	size+=writer.Print(Caption->Begin(lng));
+	size+=writer.Print(m_Caption->Begin(lng));
 	size+=writer.Print("</caption>");
 	}
 if(Columns->GetCount()>0)
@@ -93,6 +80,19 @@ size+=writer.PrintChar(' ', child_level*2);
 size+=writer.Print("</tbody>");
 size+=WriteClosureToStream(stream, level);
 return size;
+}
+
+
+//============================
+// Con-/Destructors Protected
+//============================
+
+HtmlTable::HtmlTable(HtmlNode* parent, Handle<Sentence> caption):
+HtmlNode(parent, "table"),
+m_Caption(caption)
+{
+Columns=ColumnList::Create();
+SetFlag(HtmlNodeFlags::MultiLine);
 }
 
 }}}

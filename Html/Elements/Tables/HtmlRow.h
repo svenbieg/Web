@@ -37,10 +37,17 @@ class HtmlRow: public HtmlNode
 {
 public:
 	// Con-/Destructors
-	HtmlRow(HtmlTable* Table);
+	static inline Handle<HtmlRow> Create(HtmlTable* Table)
+		{
+		return new HtmlRow(Table);
+		}
 
 	// Common
 	Handle<HtmlCell> AddCell(HtmlCellType Type=HtmlCellType::Default);
+
+private:
+	// Con-/Destructors
+	HtmlRow(HtmlTable* Table);
 };
 
 }}}

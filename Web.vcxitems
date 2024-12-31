@@ -97,6 +97,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpResponse.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Network\Http\HttpServer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Certificates\Google.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Certificates\Store.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Strings\WebLog.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Strings\WebLogin.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Url.h" />

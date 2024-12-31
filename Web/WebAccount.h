@@ -37,12 +37,19 @@ public:
 	using Workspace=Storage::Workspace;
 
 	// Con-/Destructors
-	WebAccount(WebSite* WebSite, Handle<String> Email, Handle<String> Name);
+	static inline Handle<WebAccount> Create(WebSite* WebSite, Handle<String> Email, Handle<String> Name)
+		{
+		return new WebAccount(WebSite, Email, Name);
+		}
 
 	// Common
 	Handle<Workspace> DocumentRoot;
 	Handle<String> const Email;
 	Handle<String> const Name;
+
+private:
+	// Con-/Destructors
+	WebAccount(WebSite* WebSite, Handle<String> Email, Handle<String> Name);
 };
 
 }

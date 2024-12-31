@@ -28,9 +28,19 @@ namespace Web {
 		namespace Graphs {
 
 
-//==================
-// Con-/Destructors
-//==================
+//========
+// Common
+//========
+
+VOID WebGraph::AddRow(LPCSTR id, Handle<Sentence> name, COLOR c, Handle<ValueVector> values)
+{
+WebDataRow::Create(this, id, name, c, values);
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
 
 WebGraph::WebGraph(HtmlNode* parent, Handle<String> id):
 HtmlNode(parent, "canvas", id),
@@ -38,20 +48,10 @@ Divisor(1),
 GridColor(Colors::LightGray),
 Offset(0)
 {
-AxisX=new WebAxis();
-AxisY=new WebAxis();
-Rows=new RowList();
+AxisX=WebAxis::Create();
+AxisY=WebAxis::Create();
+Rows=RowList::Create();
 Document->AddScript(this, &WebGraph::WriteScriptToStream);
-}
-
-
-//========
-// Common
-//========
-
-VOID WebGraph::AddRow(LPCSTR id, Handle<Sentence> name, COLOR c, Handle<ValueVector> values)
-{
-new WebDataRow(this, id, name, c, values);
 }
 
 
@@ -85,8 +85,8 @@ if(axis_x_count>0)
 		size+=writer.Print(", '");
 		size+=writer.Print(label->Begin(lng));
 		size+=writer.Print("' ]");
-		min_x=Min(min_x, x);
-		max_x=Max(max_x, x);
+		min_x=TypeHelper::Min(min_x, x);
+		max_x=TypeHelper::Max(max_x, x);
 		}
 	size+=writer.Print("];\r\n");
 	}
@@ -108,8 +108,8 @@ if(axis_y_count>0)
 		size+=writer.Print(", '");
 		size+=writer.Print(label->Begin(lng));
 		size+=writer.Print("' ]");
-		min_y=Min(min_y, y);
-		max_y=Max(max_y, y);
+		min_y=TypeHelper::Min(min_y, y);
+		max_y=TypeHelper::Max(max_y, y);
 		}
 	size+=writer.Print("];\r\n");
 	}

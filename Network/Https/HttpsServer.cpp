@@ -22,24 +22,23 @@ namespace Network {
 	namespace Https {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HttpsServer::HttpsServer(Handle<String> host_name):
-m_HostName(host_name)
-{}
-
-
 //========
 // Common
 //========
 
+VOID HttpsServer::Close()
+{
+if(m_ListenTask)
+	{
+	m_ListenTask->Cancel();
+	m_ListenTask=nullptr;
+	}
+m_Socket=nullptr;
+}
+
 VOID HttpsServer::Listen(WORD port)
 {
-m_Socket=new TcpSocket();
-m_Socket->Listen(port);
-m_ListenTask=CreateTask(this, &HttpsServer::DoListen);
+m_ListenTask=Task::Create(this, [this, port]() { DoListen(port); });
 }
 
 
@@ -47,18 +46,16 @@ m_ListenTask=CreateTask(this, &HttpsServer::DoListen);
 // Common Private
 //================
 
-VOID HttpsServer::DoListen()
+VOID HttpsServer::DoListen(WORD port)
 {
-auto task=GetCurrentTask();
+m_Socket=TlsSocket::Create();
+m_Socket->Listen(port);
+auto task=Task::Get();
 while(!task->Cancelled)
 	{
-	Handle<TcpSocket> tcp_sock=m_Socket->Accept();
-	if(!tcp_sock)
-		break;
-	Handle<TlsSocket> tls_sock=new TlsSocket(tcp_sock);
-	if(!tls_sock->Accept(m_HostName))
-		break;
-	Handle<HttpConnection> http_con=new HttpConnection(tls_sock);
+	auto tls_con=m_Socket->Accept();
+	tls_con->Handshake(m_HostName);
+	auto http_con=HttpConnection::Create(tls_con);
 	ConnectionReceived(this, http_con);
 	}
 }

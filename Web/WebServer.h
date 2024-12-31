@@ -9,9 +9,10 @@
 // Using
 //=======
 
-#include "Clusters/map.hpp"
+#include "Collections/map.hpp"
 #include "Network/Http/HttpServer.h"
 #include "Network/Https/HttpsServer.h"
+#include "Timing/Clock.h"
 #include "WebContext.h"
 #include "WebSession.h"
 
@@ -38,18 +39,27 @@ class WebServer: public Object
 {
 public:
 	// Using
+	using Clock=Timing::Clock;
 	using HttpConnection=Network::Http::HttpConnection;
 	using HttpServer=Network::Http::HttpServer;
 	using HttpsServer=Network::Https::HttpsServer;
-	using WebSessionMap=Clusters::map<Handle<String>, Handle<WebSession>>;
+	using WebSessionMap=Collections::map<Handle<String>, Handle<WebSession>>;
 
 	// Con-/Destructors
-	WebServer(WebSite* WebSite, Handle<String> HostName=nullptr);
+	~WebServer() { Close(); }
+	static inline Handle<WebServer> Create(WebSite* WebSite, Handle<String> HostName=nullptr)
+		{
+		return new WebServer(WebSite, HostName);
+		}
 
 	// Common
+	VOID Close();
 	VOID Listen();
 
 private:
+	// Con-/Destructors
+	WebServer(WebSite* WebSite, Handle<String> HostName);
+
 	// Common
 	VOID DoAccept(Handle<HttpConnection> Connection);
 	VOID DoGet(Handle<WebContext> Context);
@@ -57,6 +67,7 @@ private:
 	VOID DoPost(Handle<WebContext> Context);
 	VOID OnClockHour();
 	VOID OnConnectionReceived(Handle<HttpConnection> Connection);
+	Handle<Clock> m_Clock;
 	Handle<HttpServer> m_HttpServer;
 	Handle<HttpsServer> m_HttpsServer;
 	Concurrency::Mutex m_Mutex;

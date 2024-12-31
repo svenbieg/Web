@@ -5,13 +5,6 @@
 #pragma once
 
 
-//=======
-// Using
-//=======
-
-#include "Storage/Buffer.h"
-
-
 //===========
 // Namespace
 //===========
@@ -27,14 +20,18 @@ namespace Web {
 class GoogleToken: public Object
 {
 public:
-	// Using
-	using Buffer=Storage::Buffer;
-
 	// Con-/Destructors
-	GoogleToken(LPSTR Response, UINT Length);
+	static inline Handle<GoogleToken> Create(LPSTR Response, UINT Length)
+		{
+		return new GoogleToken(Response, Length);
+		}
 
 	// Common
 	Handle<String> Email;
+
+private:
+	// Con-/Destructors
+	GoogleToken(LPSTR Response, UINT Length);
 };
 
 }}

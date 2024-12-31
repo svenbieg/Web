@@ -22,43 +22,26 @@ namespace Network {
 	namespace Http {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HttpConnection::HttpConnection(Handle<TcpSocket> sock):
-Socket(sock),
-m_Flags(HttpConnectionFlags::None),
-m_Socket(sock),
-m_Stream(sock)
-{
-m_Format=StreamFormat::Ansi;
-}
-
-HttpConnection::HttpConnection(Handle<TlsSocket> sock):
-Socket(sock->Socket),
-m_Flags(HttpConnectionFlags::None),
-m_Socket(sock),
-m_Stream(sock)
-{
-m_Format=StreamFormat::Ansi;
-}
-
-
 //========
 // Common
 //========
 
+VOID HttpConnection::Close()
+{
+m_Connection=nullptr;
+m_Flags=HttpConnectionFlags::None;
+}
+
 Handle<HttpRequest> HttpConnection::GetRequest()
 {
-Handle<HttpRequest> request=new HttpRequest();
+auto request=HttpRequest::Create();
 request->ReadFromStream(this);
 return request;
 }
 
 Handle<HttpResponse> HttpConnection::GetResponse()
 {
-Handle<HttpResponse> response=new HttpResponse();
+auto response=HttpResponse::Create();
 response->ReadFromStream(this);
 return response;
 }
@@ -66,20 +49,20 @@ return response;
 VOID HttpConnection::Send(Handle<HttpRequest> request)
 {
 request->WriteToStream(this);
-m_Stream->Flush();
+m_Connection->Flush();
 }
 
 VOID HttpConnection::Send(Handle<HttpResponse> response)
 {
 response->WriteToStream(this);
-m_Stream->Flush();
+m_Connection->Flush();
 }
 
 BOOL HttpConnection::SendFile(Handle<File> file, Handle<String> path)
 {
 if(!file)
 	return false;
-Handle<HttpRequest> request=new HttpRequest();
+auto request=HttpRequest::Create();
 request->Content=file;
 request->Method=HttpMethod::Post;
 request->Parameters->Set("name", file->GetName());
@@ -90,10 +73,10 @@ UINT64 size=file->GetSize();
 constexpr UINT64 chunk_size=1024*1024;
 while(pos<size)
 	{
-	UINT64 copy=Min(size-pos, chunk_size);
+	UINT64 copy=TypeHelper::Min(size-pos, chunk_size);
 	UINT64 end=pos+copy;
-	request->Properties->Set("Content-Length", new String("%u", copy));
-	request->Properties->Set("Content-Range", new String("%u-%u/%u", pos, end, size));
+	request->Properties->Set("Content-Length", String::Create("%u", copy));
+	request->Properties->Set("Content-Range", String::Create("%u-%u/%u", pos, end, size));
 	request->Properties->Set("Connection", end<size? "Keep-Alive": "Close");
 	Send(request);
 	auto response=GetResponse();
@@ -111,12 +94,12 @@ return true;
 
 SIZE_T HttpConnection::Available()
 {
-return m_Stream->Available();
+return m_Connection->Available();
 }
 
 SIZE_T HttpConnection::Read(VOID* buf, SIZE_T size)
 {
-return m_Stream->Read(buf, size);
+return m_Connection->Read(buf, size);
 }
 
 
@@ -126,12 +109,31 @@ return m_Stream->Read(buf, size);
 
 VOID HttpConnection::Flush()
 {
-m_Stream->Flush();
+m_Connection->Flush();
 }
 
 SIZE_T HttpConnection::Write(VOID const* buf, SIZE_T size)
 {
-return m_Stream->Write(buf, size);
+return m_Connection->Write(buf, size);
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HttpConnection::HttpConnection(Handle<TcpConnection> con):
+m_Connection(con),
+m_Flags(HttpConnectionFlags::None)
+{
+m_Format=StreamFormat::Ansi;
+}
+
+HttpConnection::HttpConnection(Handle<TlsConnection> con):
+m_Connection(con),
+m_Flags(HttpConnectionFlags::None)
+{
+m_Format=StreamFormat::Ansi;
 }
 
 }}

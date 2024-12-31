@@ -21,15 +21,15 @@ using namespace Culture;
 namespace Web {
 
 
-//==================
-// Con-/Destructors
-//==================
+//==========================
+// Con-/Destructors Private
+//==========================
 
 WebContext::WebContext(Web::WebSite* web_site):
 Language(LanguageCode::None),
 Protocol(nullptr),
 TimeStamp(0),
-WebSite(web_site)
+m_WebSite(web_site)
 {}
 
 }

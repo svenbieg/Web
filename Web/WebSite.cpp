@@ -22,33 +22,33 @@ using namespace Storage;
 namespace Web {
 
 
-//==================
-// Con-/Destructors
-//==================
+//============================
+// Con-/Destructors Protected
+//============================
 
 WebSite::WebSite(Handle<String> host_name)
 {
-Current=this;
-Accounts=new WebAccountMap();
-Public=new Workspace("Public");
+s_Current=this;
+Accounts=WebAccountMap::Create();
+Public=Workspace::Create("Public");
 auto public_dir=Filesystem::Directory::Open("Public");
 Public->AddDirectory(public_dir);
 if(host_name)
 	{
-	Protected=new Workspace("Protected");
+	Protected=Workspace::Create("Protected");
 	Protected->AddDirectory(Public);
 	auto protected_dir=Filesystem::Directory::Open("Protected");
 	Protected->AddDirectory(protected_dir);
 	}
-m_WebServer=new WebServer(this, host_name);
+m_WebServer=WebServer::Create(this, host_name);
 m_WebServer->Listen();
 }
 
 
-//========
-// Common
-//========
+//================
+// Common Private
+//================
 
-Handle<WebSite> WebSite::Current;
+WebSite* WebSite::s_Current=nullptr;
 
 }

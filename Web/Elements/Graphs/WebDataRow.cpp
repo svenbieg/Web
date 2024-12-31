@@ -26,27 +26,13 @@ namespace Web {
 		namespace Graphs {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-WebDataRow::WebDataRow(WebGraph* graph, LPCSTR id, Handle<Sentence> name, COLOR c, Handle<ValueVector> values):
-Color(c),
-Id(id),
-Name(name),
-Values(values)
-{
-graph->Rows->Add(this);
-}
-
-
 //========
 // Common
 //========
 
 SIZE_T WebDataRow::WriteToStream(OutputStream* stream, INT offset, UINT div, INT min, INT max)
 {
-div=Max(div, 1u);
+div=TypeHelper::Max(div, 1u);
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print("[ ");
@@ -80,6 +66,20 @@ for(UINT u=0; u<count; u++)
 	}
 size+=writer.Print(" ]");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+WebDataRow::WebDataRow(WebGraph* graph, LPCSTR id, Handle<Sentence> name, COLOR c, Handle<ValueVector> values):
+Color(c),
+Id(id),
+Name(name),
+Values(values)
+{
+graph->Rows->Add(this);
 }
 
 }}}

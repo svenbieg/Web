@@ -32,11 +32,15 @@ public:
 	using HtmlRow=Html::Elements::Tables::HtmlRow;
 
 	// Con-/Destructors
-	WebTable(HtmlNode* Parent);
+	static inline Handle<WebTable> Create(HtmlNode* Parent) { return new WebTable(Parent); }
 
 	// Common
 	VOID AddRow(Handle<Sentence> Header, Handle<Sentence> Value);
 	VOID AddRow(Handle<Sentence> Header, Handle<Variable> Variable, Handle<String> Id);
+
+private:
+	// Con-/Destructors
+	WebTable(HtmlNode* Parent);
 };
 
 }}}

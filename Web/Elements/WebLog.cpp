@@ -12,14 +12,15 @@
 #include "Html/HtmlDocument.h"
 #include "Resources/Strings/WebLog.h"
 #include "Storage/Streams/StreamWriter.h"
+#include "Timing/TimePoint.h"
 #include "Web/WebPage.h"
 #include "WebLog.h"
 
 using namespace Collections;
 using namespace Culture;
-using namespace Physics;
 using namespace Resources::Strings;
 using namespace Storage::Streams;
+using namespace Timing;
 
 
 //===========
@@ -33,19 +34,6 @@ namespace Web {
 //==================
 // Con-/Destructors
 //==================
-
-WebLog::WebLog(HtmlNode* parent, Handle<String> id, Handle<Log> log):
-WebVariable(parent, "table", id),
-m_Log(log),
-m_TimeChanged(0)
-{
-Class="logbox";
-Document->AddStyle("table.logbox td", "vertical-align:top;");
-Document->AddStyle("table.logbox th", "padding-right:8px; text-align:right; vertical-align:top;");
-auto btn=new WebButton(parent, id+"Button", STR_WEB_LOG_CLEAR);
-btn->Clicked.Add(this, &WebLog::OnClearButtonClicked);
-m_Log->Changed.Add(this, &WebLog::OnLogChanged);
-}
 
 WebLog::~WebLog()
 {
@@ -108,6 +96,24 @@ size+=writer.Print("</tbody>\r\n");
 size+=writer.PrintChar(' ', level*2);
 size+=writer.Print("</table><br />");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+WebLog::WebLog(HtmlNode* parent, Handle<String> id, Handle<Log> log):
+WebVariable(parent, "table", id),
+m_Log(log),
+m_TimeChanged(0)
+{
+Class="logbox";
+Document->AddStyle("table.logbox td", "vertical-align:top;");
+Document->AddStyle("table.logbox th", "padding-right:8px; text-align:right; vertical-align:top;");
+auto btn=WebButton::Create(parent, id+"Button", STR_WEB_LOG_CLEAR);
+btn->Clicked.Add(this, &WebLog::OnClearButtonClicked);
+m_Log->Changed.Add(this, &WebLog::OnLogChanged);
 }
 
 

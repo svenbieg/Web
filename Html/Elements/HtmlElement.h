@@ -55,8 +55,8 @@ public:
 
 protected:
 	// Con-/Destructors
-	HtmlElement(HtmlDocument* Document);
 	HtmlElement(HtmlNode* Parent);
+	HtmlElement(HtmlDocument* Document);
 	HtmlElement(HtmlDocument* Document, HtmlNode* Parent);
 };
 

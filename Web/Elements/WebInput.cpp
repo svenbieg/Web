@@ -31,7 +31,7 @@ namespace Web {
 // Scripts
 //=========
 
-LPCSTR WebInputScript=
+constexpr CHAR STR_INPUT_SCRIPT[]=
 "\r\n"
 "function webInputChanged(id, value)\r\n"
 "{\r\n"
@@ -44,22 +44,6 @@ LPCSTR WebInputScript=
 //==================
 // Con-/Destructors
 //==================
-
-WebInput::WebInput(HtmlNode* parent, Handle<Variable> var, Handle<String> id, WebInputType type):
-WebVariable(parent, "input", id? id: var->Name),
-m_InputType(type),
-m_TimeChanged(0),
-m_Variable(var)
-{
-m_Variable->Changed.Add(this, &WebInput::OnVariableChanged);
-Document->AddScript(WebInputScript);
-Document->AddStyle("input", "margin-top:8px; padding-left:2px; padding-right:2px; width:200px");
-if(m_InputType==WebInputType::Number)
-	{
-	Document->AddStyle("input.num", "width:50px");
-	Class="num";
-	}
-}
 
 WebInput::~WebInput()
 {
@@ -129,6 +113,27 @@ size+=writer.Print("\" onchange=\"webInputChanged('");
 size+=writer.Print(Id);
 size+=writer.Print("', this.value)\"");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+WebInput::WebInput(HtmlNode* parent, Handle<Variable> var, Handle<String> id, WebInputType type):
+WebVariable(parent, "input", id? id: var->Name),
+m_InputType(type),
+m_TimeChanged(0),
+m_Variable(var)
+{
+m_Variable->Changed.Add(this, &WebInput::OnVariableChanged);
+Document->AddScript(STR_INPUT_SCRIPT);
+Document->AddStyle("input", "margin-top:8px; padding-left:2px; padding-right:2px; width:200px");
+if(m_InputType==WebInputType::Number)
+	{
+	Document->AddStyle("input.num", "width:50px");
+	Class="num";
+	}
 }
 
 

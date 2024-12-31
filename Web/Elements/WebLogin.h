@@ -28,7 +28,7 @@ class WebLogin: public Html::Elements::HtmlNode
 {
 public:
 	// Con-/Destructors
-	WebLogin(HtmlNode* Parent);
+	static inline Handle<WebLogin> Create(HtmlNode* Parent) { return new WebLogin(Parent); }
 
 	Handle<String> LoginUrl;
 	Handle<String> LogoutUrl;
@@ -36,6 +36,10 @@ public:
 protected:
 	// Common
 	SIZE_T WriteElementsToStream(OutputStream* Stream, WebContext* Context, UINT Level)override;
+
+private:
+	// Con-/Destructors
+	WebLogin(HtmlNode* Parent);
 };
 
 }}

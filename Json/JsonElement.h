@@ -42,7 +42,7 @@ public:
 	using OutputStream=Storage::Streams::OutputStream;
 
 	// Con-/Destructors
-	JsonElement();
+	static inline Handle<JsonElement> Create() { return new JsonElement(); }
 
 	// Common
 	Handle<ElementMap> Elements;
@@ -53,6 +53,10 @@ public:
 	SIZE_T ReadFromStream(InputStream* Stream);
 	SIZE_T WriteToStream(OutputStream* Stream) { return WriteToStream(Stream, 0); }
 	SIZE_T WriteToStream(OutputStream* Stream, UINT Level);
+
+private:
+	// Con-/Destructors
+	JsonElement();
 };
 
 }

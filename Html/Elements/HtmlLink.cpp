@@ -26,19 +26,6 @@ namespace Html {
 
 
 //==================
-// Con-/Destructors
-//==================
-
-HtmlLink::HtmlLink(HtmlNode* parent, Handle<Sentence> link, Handle<Sentence> text):
-HtmlNode(parent, "a"),
-Link(link)
-{
-if(text)
-	new HtmlText(this, text);
-}
-
-
-//==================
 // Common Protected
 //==================
 
@@ -48,9 +35,22 @@ auto lng=context->Language;
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print(" href=\"");
-size+=writer.Print(Link->Begin(lng));
+size+=writer.Print(m_Link->Begin(lng));
 size+=writer.Print("\"");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HtmlLink::HtmlLink(HtmlNode* parent, Handle<Sentence> link, Handle<Sentence> text):
+HtmlNode(parent, "a"),
+m_Link(link)
+{
+if(text)
+	HtmlText::Create(this, text);
 }
 
 }}

@@ -27,20 +27,6 @@ namespace Web {
 
 
 //==================
-// Con-/Destructors
-//==================
-
-WebLogin::WebLogin(HtmlNode* parent):
-HtmlNode(parent, "div")
-{
-Class="login";
-Document->AddStyle("div.login a", "color:inherit; font-weight:500; text-decoration:none");
-Document->AddStyle("div.login a:visited", "color:inherit");
-Document->AddStyle("div.login a:hover", "color:inherit");
-}
-
-
-//==================
 // Common Protected
 //==================
 
@@ -64,10 +50,24 @@ else
 	size+=writer.Print("<a href=\"");
 	size+=writer.Print(LoginUrl);
 	size+=writer.Print("\">");
-	size+=writer.Print(Translate(STR_WEB_LOGIN, lng));
+	size+=writer.Print(Sentence::Translate(STR_WEB_LOGIN, lng));
 	size+=writer.Print("</a>");
 	}
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+WebLogin::WebLogin(HtmlNode* parent):
+HtmlNode(parent, "div")
+{
+Class="login";
+Document->AddStyle("div.login a", "color:inherit; font-weight:500; text-decoration:none");
+Document->AddStyle("div.login a:visited", "color:inherit");
+Document->AddStyle("div.login a:hover", "color:inherit");
 }
 
 }}

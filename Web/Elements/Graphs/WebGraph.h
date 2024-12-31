@@ -37,7 +37,10 @@ public:
 	using ValueVector=WebDataRow::ValueVector;
 
 	// Con-/Destructors
-	WebGraph(HtmlNode* Parent, Handle<String> Id);
+	static inline Handle<WebGraph> Create(HtmlNode* Parent, Handle<String> Id)
+		{
+		return new WebGraph(Parent, Id);
+		}
 
 	// Common
 	VOID AddRow(LPCSTR Id, Handle<Sentence> Name, COLOR Color, Handle<ValueVector> Values);
@@ -49,6 +52,9 @@ public:
 	Handle<RowList> Rows;
 
 private:
+	// Con-/Destructors
+	WebGraph(HtmlNode* Parent, Handle<String> Id);
+
 	// Common
 	SIZE_T WriteScriptToStream(OutputStream* Stream, WebContext* Context);
 };

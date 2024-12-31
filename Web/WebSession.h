@@ -32,7 +32,7 @@ public:
 	using HttpRequest=Network::Http::HttpRequest;
 
 	// Con-/Destructors
-	WebSession(Handle<String> Id);
+	static inline Handle<WebSession> Create(Handle<String> Id) { return new WebSession(Id); }
 
 	// Common
 	Handle<WebAccount> Account;
@@ -40,6 +40,10 @@ public:
 	Handle<WebEventSource> EventSource;
 	Handle<String> const Id;
 	UINT64 TimeOut;
+
+private:
+	// Con-/Destructors
+	WebSession(Handle<String> Id);
 };
 
 }

@@ -22,15 +22,15 @@ using namespace Storage;
 namespace Web {
 
 
-//==================
-// Con-/Destructors
-//==================
+//==========================
+// Con-/Destructors Private
+//==========================
 
 WebAccount::WebAccount(WebSite* web_site, Handle<String> email, Handle<String> name):
 Email(email),
 Name(name)
 {
-DocumentRoot=new Workspace("Private");
+DocumentRoot=Workspace::Create("Private");
 DocumentRoot->AddDirectory(web_site->Protected);
 auto private_dir=Filesystem::Directory::Open("Private");
 DocumentRoot->AddDirectory(private_dir);

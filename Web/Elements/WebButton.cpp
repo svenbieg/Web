@@ -31,7 +31,7 @@ namespace Web {
 // Scripts
 //=========
 
-LPCSTR WebButtonScript=
+constexpr CHAR STR_BUTTON_SCRIPT[]=
 "\r\n"
 "function webButtonClick(id)\r\n"
 "{\r\n"
@@ -39,20 +39,6 @@ LPCSTR WebButtonScript=
 "request.open('NOTIFY', '?id='+id);\r\n"
 "request.send();\r\n"
 "}\r\n";
-
-
-//==================
-// Con-/Destructors
-//==================
-
-WebButton::WebButton(HtmlNode* parent, Handle<String> id, Handle<Sentence> text):
-WebControl(parent, "button", id),
-Script(nullptr)
-{
-if(text)
-	new HtmlText(this, text);
-Document->AddScript(WebButtonScript);
-}
 
 
 //========
@@ -84,6 +70,20 @@ if(Script)
 	}
 size+=writer.Print("\" type=\"button\"");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+WebButton::WebButton(HtmlNode* parent, Handle<String> id, Handle<Sentence> text):
+WebControl(parent, "button", id),
+Script(nullptr)
+{
+if(text)
+	HtmlText::Create(this, text);
+Document->AddScript(STR_BUTTON_SCRIPT);
 }
 
 }}

@@ -9,12 +9,10 @@
 // Using
 //=======
 
-#include "Network/Tcp/TcpSocket.h"
-#include "Storage/Buffer.h"
+#include "Network/Tcp/TcpClient.h"
 #include "HttpClient.h"
 
 using namespace Network::Tcp;
-using namespace Storage;
 
 
 //===========
@@ -29,12 +27,10 @@ namespace Network {
 // Common
 //========
 
-Handle<HttpConnection> HttpClient::Connect(Handle<String> host, WORD port)
+Handle<HttpConnection> HttpClient::Connect(Handle<String> url, WORD port)
 {
-Handle<TcpSocket> sock=new TcpSocket();
-if(!sock->Connect(host, port))
-	return nullptr;
-return new HttpConnection(sock);
+auto tcp_con=TcpClient::Connect(url, port);
+return HttpConnection::Create(tcp_con);
 }
 
 }}

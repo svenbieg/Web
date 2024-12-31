@@ -40,8 +40,11 @@ class WebInput: public WebVariable
 {
 public:
 	// Con-/Destructors
-	WebInput(HtmlNode* Parent, Handle<Variable> Variable, Handle<String> Id=nullptr, WebInputType InputType=WebInputType::Text);
 	~WebInput();
+	static inline Handle<WebInput> Create(HtmlNode* Parent, Handle<Variable> Variable, Handle<String> Id=nullptr, WebInputType InputType=WebInputType::Text)
+		{
+		return new WebInput(Parent, Variable, Id, InputType);
+		}
 
 	// Common
 	VOID OnNotified(Handle<WebContext> Context)override;
@@ -52,6 +55,9 @@ protected:
 	SIZE_T WriteAttributesToStream(OutputStream* Stream, WebContext* Context)override;
 
 private:
+	// Con-/Destructors
+	WebInput(HtmlNode* Parent, Handle<Variable> Variable, Handle<String> Id, WebInputType InputType);
+
 	// Common
 	VOID OnVariableChanged();
 	WebInputType m_InputType;

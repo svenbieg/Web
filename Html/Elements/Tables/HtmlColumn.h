@@ -39,11 +39,20 @@ public:
 	using OutputStream=Storage::Streams::OutputStream;
 
 	// Con-/Destructors
-	HtmlColumn(HtmlTable* Table, LPCSTR Style=nullptr);
+	static inline Handle<HtmlColumn> Create(HtmlTable* Table, LPCSTR Style=nullptr)
+		{
+		return new HtmlColumn(Table, Style);
+		}
 
 	// Common
-	LPCSTR Style;
 	SIZE_T WriteToStream(OutputStream* Stream, UINT Level);
+
+private:
+	// Con-/Destructors
+	HtmlColumn(HtmlTable* Table, LPCSTR Style);
+
+	// Common
+	LPCSTR m_Style;
 };
 
 }}}

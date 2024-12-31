@@ -29,10 +29,14 @@ class WebGrid: public Html::Elements::Tables::HtmlTable
 {
 public:
 	// Con-/Destructors
-	WebGrid(HtmlNode* Parent);
+	static inline Handle<WebGrid> Create(HtmlNode* Parent) { return new WebGrid(Parent); }
 
 	// Common
 	Handle<WebButton> AddButton(Handle<String> Id, Handle<Sentence> Text);
+
+private:
+	// Con-/Destructors
+	WebGrid(HtmlNode* Parent);
 };
 
 }}

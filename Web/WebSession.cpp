@@ -19,9 +19,9 @@
 namespace Web {
 
 
-//==================
-// Con-/Destructors
-//==================
+//==========================
+// Con-/Destructors Private
+//==========================
 
 WebSession::WebSession(Handle<String> id):
 Id(id),

@@ -26,18 +26,6 @@ namespace Network {
 	namespace Http {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HttpRequest::HttpRequest():
-Method(HttpMethod::Get)
-{
-Cookies=new HttpParameters();
-Parameters=new HttpParameters();
-}
-
-
 //========
 // Common
 //========
@@ -55,11 +43,11 @@ LanguageCode HttpRequest::GetLanguage()
 {
 auto lng=Parameters->Get("lng");
 if(lng)
-	return LanguageCodeFromString(lng->Begin());
+	return Language::FromString(lng->Begin());
 lng=Properties->Get("Accept-Language");
 if(!lng)
 	return LanguageCode::None;
-return LanguageCodeFromString(lng->Begin());
+return Language::FromString(lng->Begin());
 }
 
 Handle<HttpRequest> HttpRequest::FromUrl(Handle<String> url)
@@ -69,22 +57,22 @@ if(!url)
 	return request;
 LPCTSTR url_ptr=url->Begin();
 UINT host_pos=0;
-if(StringCompare(url_ptr, "http://", 7, false)==0)
+if(StringHelper::Compare(url_ptr, "http://", 7, false)==0)
 	host_pos+=7;
-if(StringCompare(url_ptr, "https://", 8, false)==0)
+if(StringHelper::Compare(url_ptr, "https://", 8, false)==0)
 	host_pos+=8;
 Handle<String> host;
 LPCTSTR host_ptr=&url_ptr[host_pos];
 UINT path_pos=0;
-if(StringFind(host_ptr, "/", &path_pos))
+if(StringHelper::Find(host_ptr, "/", &path_pos))
 	{
-	host=new String(path_pos, host_ptr);
+	host=String::Create(path_pos, host_ptr);
 	LPCTSTR path_ptr=&host_ptr[path_pos+1];
 	UINT params_pos=0;
-	if(StringFind(path_ptr, "?", &params_pos))
+	if(StringHelper::Find(path_ptr, "?", &params_pos))
 		{
 		LPCTSTR params_ptr=&path_ptr[params_pos+1];
-		request->Path=new String(params_pos, path_ptr);
+		request->Path=String::Create(params_pos, path_ptr);
 		request->Parameters->Set(params_ptr);
 		}
 	else
@@ -108,20 +96,20 @@ StreamReader reader(stream);
 SIZE_T size=0;
 TCHAR buf[256];
 size+=reader.ReadString(buf, 256, " ");
-Method=HttpMethodFromString(buf);
+Method=HttpHelper::MethodFromString(buf);
 if(Method==HttpMethod::Unknown)
 	return size;
 UINT path_len=reader.ReadString(buf, 256, " ");
 size+=path_len;
 UINT params_pos=0;
-if(StringFind(buf, "?", &params_pos))
+if(StringHelper::Find(buf, "?", &params_pos))
 	{
-	Path=HttpPathToString(buf, params_pos);
+	Path=HttpHelper::PathToString(buf, params_pos);
 	Parameters->Set(&buf[params_pos+1]);
 	}
 else
 	{
-	Path=HttpPathToString(buf, path_len);
+	Path=HttpHelper::PathToString(buf, path_len);
 	}
 size+=reader.FindChar("\n");
 while(1)
@@ -131,7 +119,7 @@ while(1)
 	if(buf[0]==0)
 		break;
 	UINT value_pos=0;
-	if(!StringFind(buf, ":", &value_pos))
+	if(!StringHelper::Find(buf, ":", &value_pos))
 		{
 		Properties->Add(buf, nullptr);
 		continue;
@@ -155,7 +143,7 @@ SIZE_T HttpRequest::WriteHeaderToStream(OutputStream* stream)
 {
 SIZE_T size=0;
 StreamWriter writer(stream);
-size+=writer.Print(HttpMethodToString(Method));
+size+=writer.Print(HttpHelper::MethodToString(Method));
 size+=writer.Print(" ");
 size+=writer.Print(Path);
 if(Parameters->GetCount()>0)
@@ -181,7 +169,7 @@ SIZE_T HttpRequest::WriteToStream(OutputStream* stream)
 {
 SIZE_T size=0;
 StreamWriter writer(stream);
-size+=writer.Print(HttpMethodToString(Method));
+size+=writer.Print(HttpHelper::MethodToString(Method));
 size+=writer.Print(" ");
 size+=writer.Print(Path);
 if(Parameters->GetCount()>0)
@@ -197,7 +185,7 @@ if(Content)
 	content_len=Properties->Get("Content-Length");
 	if(content_len)
 		{
-		StringScan(content_len->Begin(), "%u", &content_size);
+		StringHelper::Scan(content_len->Begin(), "%u", &content_size);
 		}
 	else
 		{
@@ -209,8 +197,8 @@ if(Content)
 if(content_size>0)
 	{
 	if(!content_len)
-		Properties->Add("Content-Length", new String("%u", content_size));
-	Properties->Add("Content-Type", "text/html; charset=ISO-8859-15");
+		Properties->Add("Content-Length", String::Create("%u", content_size));
+	Properties->Add("Content-Type", "text/html; charset=UTF-8");
 	}
 else
 	{
@@ -228,8 +216,20 @@ for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
 	}
 size+=writer.Print("\r\n");
 if(Content)
-	size+=StreamCopy(stream, Content, (SIZE_T)content_size);
+	size+=StreamHelper::Copy(stream, Content, (SIZE_T)content_size);
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HttpRequest::HttpRequest():
+Method(HttpMethod::Get)
+{
+Cookies=HttpParameters::Create();
+Parameters=HttpParameters::Create();
 }
 
 }}

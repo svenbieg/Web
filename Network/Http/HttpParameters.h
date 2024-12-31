@@ -32,12 +32,16 @@ public:
 	using OutputStream=Storage::Streams::OutputStream;
 
 	// Con-/Destructors
-	HttpParameters();
+	static inline Handle<HttpParameters> Create() { return new HttpParameters(); }
 
 	// Common
 	VOID Set(LPCTSTR Parameters);
 	VOID Set(Handle<String> Key, Handle<String> Value);
 	SIZE_T WriteToStream(OutputStream* Stream);
+
+private:
+	// Con-/Destructors
+	HttpParameters() {}
 };
 
 }}

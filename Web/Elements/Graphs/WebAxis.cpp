@@ -21,13 +21,13 @@ namespace Web {
 		namespace Graphs {
 
 
-//==================
-// Con-/Destructors
-//==================
+//==========================
+// Con-/Destructors Private
+//==========================
 
 WebAxis::WebAxis()
 {
-Points=new PointMap();
+Points=PointMap::Create();
 }
 
 }}}

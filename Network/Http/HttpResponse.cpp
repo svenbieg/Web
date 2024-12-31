@@ -25,18 +25,6 @@ namespace Network {
 	namespace Http {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HttpResponse::HttpResponse(HttpStatus status):
-HttpMessage(status)
-{
-Cookies=new HttpParameters();
-Properties->Set("Connection", "Close");
-}
-
-
 //========
 // Common
 //========
@@ -57,7 +45,7 @@ size+=reader.ReadString(buf, 256, "\r");
 UINT ver0=0;
 UINT ver1=0;
 UINT status=0;
-if(StringScan(buf, "HTTP/%u.%u %u", &ver0, &ver1, &status)!=3)
+if(StringHelper::Scan(buf, "HTTP/%u.%u %u", &ver0, &ver1, &status)!=3)
 	{
 	Status=HttpStatus::InternalServerError;
 	return size;
@@ -71,7 +59,7 @@ while(1)
 	if(buf[0]==0)
 		break;
 	UINT value_pos=0;
-	if(!StringFind(buf, ":", &value_pos))
+	if(!StringHelper::Find(buf, ":", &value_pos))
 		{
 		Status=HttpStatus::InternalServerError;
 		return size;
@@ -97,7 +85,7 @@ SIZE_T HttpResponse::WriteHeaderToStream(OutputStream* stream)
 {
 SIZE_T size=0;
 StreamWriter writer(stream);
-size+=writer.Print("HTTP/1.1 %u %s\r\n", (UINT)Status, HttpStatusToString(Status));
+size+=writer.Print("HTTP/1.1 %u %s\r\n", (UINT)Status, HttpHelper::StatusToString(Status));
 for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
 	{
 	auto key=it->GetKey();
@@ -130,7 +118,7 @@ SIZE_T HttpResponse::WriteToStream(OutputStream* stream)
 Properties->Add("Content-Type", "text/html; charset=utf-8");
 SIZE_T size=0;
 StreamWriter writer(stream);
-size+=writer.Print("HTTP/1.1 %u %s\r\n", (UINT)Status, HttpStatusToString(Status));
+size+=writer.Print("HTTP/1.1 %u %s\r\n", (UINT)Status, HttpHelper::StatusToString(Status));
 UINT64 content_size=0;
 Handle<String> content_len;
 if(Content)
@@ -138,7 +126,7 @@ if(Content)
 	content_len=Properties->Get("Content-Length");
 	if(content_len)
 		{
-		StringScan(content_len->Begin(), "%u", &content_size);
+		StringHelper::Scan(content_len->Begin(), "%u", &content_size);
 		}
 	else
 		{
@@ -150,7 +138,7 @@ if(Content)
 if(content_size>0)
 	{
 	if(!content_len)
-		Properties->Add("Content-Length", new String("%u", content_size));
+		Properties->Add("Content-Length", String::Create("%u", content_size));
 	Properties->Add("Cache-Control", "no-cache");
 	}
 else
@@ -182,8 +170,20 @@ if(Cookies->GetCount()>0)
 	}
 size+=writer.Print("\r\n");
 if(Content)
-	size+=StreamCopy(stream, Content, (SIZE_T)content_size);
+	size+=StreamHelper::Copy(stream, Content, (SIZE_T)content_size);
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HttpResponse::HttpResponse(HttpStatus status):
+HttpMessage(status)
+{
+Cookies=HttpParameters::Create();
+Properties->Set("Connection", "Close");
 }
 
 }}

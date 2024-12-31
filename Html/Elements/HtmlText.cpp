@@ -24,16 +24,6 @@ namespace Html {
 	namespace Elements {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HtmlText::HtmlText(HtmlNode* parent, Handle<Sentence> text):
-HtmlElement(parent),
-m_Text(text)
-{}
-
-
 //========
 // Common
 //========
@@ -43,5 +33,15 @@ SIZE_T HtmlText::WriteToStream(OutputStream* stream, WebContext* context, UINT l
 StreamWriter writer(stream);
 return writer.Print(m_Text->Begin(context->Language));
 }
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HtmlText::HtmlText(HtmlNode* parent, Handle<Sentence> text):
+HtmlElement(parent),
+m_Text(text)
+{}
 
 }}

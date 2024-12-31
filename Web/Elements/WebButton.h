@@ -28,7 +28,10 @@ class WebButton: public WebControl
 {
 public:
 	// Con-/Destructors
-	WebButton(HtmlNode* Parent, Handle<String> Id, Handle<Sentence> Text=nullptr);
+	static inline Handle<WebButton> Create(HtmlNode* Parent, Handle<String> Id, Handle<Sentence> Text=nullptr)
+		{
+		return new WebButton(Parent, Id, Text);
+		}
 
 	// Common
 	Event<WebButton, Handle<WebContext>> Clicked;
@@ -38,6 +41,10 @@ public:
 protected:
 	// Common
 	SIZE_T WriteAttributesToStream(OutputStream* Stream, WebContext* Context)override;
+
+private:
+	// Con-/Destructors
+	WebButton(HtmlNode* Parent, Handle<String> Id, Handle<Sentence> Text);
 };
 
 }}

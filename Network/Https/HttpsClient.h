@@ -31,7 +31,7 @@ public:
 	using HttpConnection=Network::Http::HttpConnection;
 
 	// Common
-	static Handle<HttpConnection> Connect(Handle<String> HostName, WORD Port=443);
+	static Handle<HttpConnection> Connect(Handle<String> Url, WORD Port=443);
 };
 
 }}

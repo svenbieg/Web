@@ -20,23 +20,29 @@ namespace Network {
 	namespace Http {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HttpServer::HttpServer()
-{}
-
-
 //========
 // Common
 //========
 
+VOID HttpServer::Close()
+{
+if(m_ListenTask)
+	{
+	m_ListenTask->Cancel();
+	m_ListenTask=nullptr;
+	}
+if(m_Socket)
+	{
+	m_Socket->Close();
+	m_Socket=nullptr;
+	}
+}
+
 VOID HttpServer::Listen(WORD port)
 {
-m_Socket=new TcpSocket();
+m_Socket=TcpSocket::Create();
 m_Socket->Listen(port);
-m_ListenTask=CreateTask(this, &HttpServer::DoListen);
+m_ListenTask=Task::Create(this, &HttpServer::DoListen);
 }
 
 
@@ -46,13 +52,11 @@ m_ListenTask=CreateTask(this, &HttpServer::DoListen);
 
 VOID HttpServer::DoListen()
 {
-auto task=GetCurrentTask();
+auto task=Task::Get();
 while(!task->Cancelled)
 	{
-	Handle<TcpSocket> tcp_sock=m_Socket->Accept();
-	if(!tcp_sock)
-		break;
-	Handle<HttpConnection> http_con=new HttpConnection(tcp_sock);
+	auto tcp_con=m_Socket->Accept();
+	auto http_con=HttpConnection::Create(tcp_con);
 	ConnectionReceived(this, http_con);
 	}
 }

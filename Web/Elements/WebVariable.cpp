@@ -28,8 +28,6 @@ namespace Web {
 
 WebVariable::WebVariable(HtmlNode* parent, LPCSTR tag, Handle<String> id):
 WebControl(parent, tag, id)
-{
-Document->AddScript(WebEventSourceScript);
-}
+{}
 
 }}

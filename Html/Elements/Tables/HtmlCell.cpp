@@ -26,15 +26,15 @@ namespace Html {
 // Types
 //=======
 
-LPCSTR strTypes[]={ "td", "th" };
+constexpr LPCSTR STR_TYPES[]={ "td", "th" };
 
 
-//==================
-// Con-/Destructors
-//==================
+//==========================
+// Con-/Destructors Private
+//==========================
 
 HtmlCell::HtmlCell(HtmlRow* row, HtmlCellType type):
-HtmlNode(row, strTypes[(UINT)type])
+HtmlNode(row, STR_TYPES[(UINT)type])
 {}
 
 }}}

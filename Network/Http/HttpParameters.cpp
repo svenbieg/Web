@@ -9,7 +9,6 @@
 // Using
 //=======
 
-#include "Clusters/map.hpp"
 #include "Storage/Streams/StreamWriter.h"
 #include "HttpParameters.h"
 
@@ -22,14 +21,6 @@ using namespace Storage::Streams;
 
 namespace Network {
 	namespace Http {
-
-
-//==================
-// Con-/Destructors
-//==================
-
-HttpParameters::HttpParameters()
-{}
 
 
 //========
@@ -45,18 +36,18 @@ while(1)
 	while(str[0]==' ')
 		str++;
 	UINT pos=0;
-	if(!StringFindChar(str, '=', &pos))
+	if(!StringHelper::FindChar(str, '=', &pos))
 		break;
-	Handle<String> key=new String(pos, str);
+	auto key=String::Create(pos, str);
 	str+=pos+1;
-	if(StringFindChar(str, '&', &pos))
+	if(StringHelper::FindChar(str, '&', &pos))
 		{
-		Handle<String> value=new String(pos, str);
+		auto value=String::Create(pos, str);
 		str+=pos+1;
 		m_Map.set(key, value);
 		continue;
 		}
-	Handle<String> value=new String(str);
+	auto value=String::Create(str);
 	m_Map.set(key, value);
 	break;
 	}

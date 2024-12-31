@@ -22,14 +22,14 @@ namespace Html {
 	namespace Elements {
 
 
-//==================
-// Con-/Destructors
-//==================
+//==========================
+// Con-/Destructors Private
+//==========================
 
 HtmlCaption::HtmlCaption(HtmlNode* parent, Handle<Sentence> text):
 HtmlNode(parent, "h1")
 {
-new HtmlText(this, text);
+HtmlText::Create(this, text);
 }
 
 }}

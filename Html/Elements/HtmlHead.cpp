@@ -23,20 +23,6 @@ namespace Html {
 	namespace Elements {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HtmlHead::HtmlHead(HtmlDocument* doc):
-HtmlNode(doc, "head"),
-Icon(nullptr)
-{
-Script=new JavaScript();
-Styles=new StyleList();
-SetFlag(HtmlNodeFlags::MultiLine);
-}
-
-
 //========
 // Common
 //========
@@ -79,6 +65,20 @@ if(Styles->GetCount()>0)
 size+=Script->WriteToStream(stream, context);
 size+=writer.Print("</head>\r\n\r\n");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HtmlHead::HtmlHead(HtmlDocument* doc):
+HtmlNode(doc, nullptr, "head"),
+Icon(nullptr)
+{
+Script=JavaScript::Create();
+Styles=StyleList::Create();
+SetFlag(HtmlNodeFlags::MultiLine);
 }
 
 }}

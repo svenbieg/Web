@@ -9,8 +9,8 @@
 // Using
 //=======
 
+#include "Culture/Sentence.h"
 #include "HtmlElement.h"
-#include "Sentence.h"
 
 
 //===========
@@ -28,13 +28,22 @@ namespace Html {
 class HtmlText: public HtmlElement
 {
 public:
+	// Using
+	using Sentence=Culture::Sentence;
+
 	// Con-/Destructors
-	HtmlText(HtmlNode* Parent, Handle<Sentence> Text);
+	static inline Handle<HtmlText> Create(HtmlNode* Parent, Handle<Sentence> Text)
+		{
+		return new HtmlText(Parent, Text);
+		}
 
 	// Common
 	SIZE_T WriteToStream(OutputStream* Stream, WebContext* Context, UINT Level)override;
 
 private:
+	// Con-/Destructors
+	HtmlText(HtmlNode* Parent, Handle<Sentence> Text);
+
 	// Common
 	Handle<Sentence> m_Text;
 };

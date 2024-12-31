@@ -25,12 +25,12 @@ namespace Html {
 // Con-/Destructors Protected
 //============================
 
-HtmlElement::HtmlElement(HtmlDocument* doc):
-HtmlElement(doc, nullptr)
+HtmlElement::HtmlElement(HtmlNode* Parent):
+HtmlElement(Parent->Document, Parent)
 {}
 
-HtmlElement::HtmlElement(HtmlNode* parent):
-HtmlElement(parent->Document, parent)
+HtmlElement::HtmlElement(HtmlDocument* Document):
+HtmlElement(Document, nullptr)
 {}
 
 HtmlElement::HtmlElement(HtmlDocument* doc, HtmlNode* parent):

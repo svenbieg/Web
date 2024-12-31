@@ -11,7 +11,7 @@
 
 #include "Storage/Streams/StreamReader.h"
 #include "Storage/Streams/StreamWriter.h"
-#include "Storage/StaticBuffer.h"
+#include "Storage/Buffer.h"
 #include "JsonElement.h"
 
 using namespace Storage;
@@ -25,25 +25,13 @@ using namespace Storage::Streams;
 namespace Json {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-JsonElement::JsonElement()
-{
-Elements=new ElementMap();
-}
-
-
 //========
 // Common
 //========
 
 Handle<JsonElement> JsonElement::FromStream(InputStream* stream)
 {
-if(!stream)
-	return nullptr;
-Handle<JsonElement> json=new JsonElement();
+auto json=JsonElement::Create();
 json->ReadFromStream(stream);
 return json;
 }
@@ -52,18 +40,20 @@ Handle<JsonElement> JsonElement::FromString(Handle<String> str)
 {
 if(!str)
 	return nullptr;
-Handle<StaticBuffer> buf=new StaticBuffer(str->Begin());
+auto buf=Buffer::Create(str->Begin(), 0, BufferOptions::Static);
 return FromStream(buf);
 }
 
 Handle<JsonList> JsonElement::GetList(Handle<String> key)
 {
-return Convert<JsonList>(Elements->Get(key));
+auto list=Elements->Get(key);
+return list.As<JsonList>();
 }
 
 Handle<String> JsonElement::GetString(Handle<String> key)
 {
-return Convert<String>(Elements->Get(key));
+auto str=Elements->Get(key);
+return str.As<String>();
 }
 
 SIZE_T JsonElement::ReadFromStream(InputStream* stream)
@@ -85,7 +75,7 @@ while(1)
 		}
 	if(reader.LastChar=='[')
 		{
-		Handle<JsonList> list=new JsonList();
+		auto list=JsonList::Create();
 		while(1)
 			{
 			size+=reader.FindChar("\"{]");
@@ -115,7 +105,7 @@ while(1)
 	UINT len=reader.ReadString(&str[1], 31, " ,\r\n}");
 	size+=len;
 	str[len+1]=0;
-	Handle<String> value=new String(str);
+	auto value=String::Create(str);
 	Elements->Set(key, value);
 	if(reader.LastChar=='}')
 		break;
@@ -142,7 +132,7 @@ for(auto it=Elements->First(); it->HasCurrent(); it->MoveNext())
 	size+=writer.Print(key);
 	size+=writer.Print("\": ");
 	auto value=it->GetValue();
-	auto str=Convert<String>(value);
+	auto str=value.As<String>();
 	if(str)
 		{
 		size+=writer.Print("\"");
@@ -150,7 +140,7 @@ for(auto it=Elements->First(); it->HasCurrent(); it->MoveNext())
 		size+=writer.Print("\"");
 		continue;
 		}
-	auto list=Convert<JsonList>(value);
+	auto list=value.As<JsonList>();
 	if(list)
 		{
 		UINT list_pos=0;
@@ -158,7 +148,7 @@ for(auto it=Elements->First(); it->HasCurrent(); it->MoveNext())
 		for(auto it_list=list->First(); it->HasCurrent(); it->MoveNext())
 			{
 			auto list_item=it_list->GetCurrent();
-			auto list_str=Convert<String>(list_item);
+			auto list_str=list_item.As<String>();
 			if(list_str)
 				{
 				if(list_pos>0)
@@ -168,7 +158,7 @@ for(auto it=Elements->First(); it->HasCurrent(); it->MoveNext())
 				size+=writer.Print("\"");
 				continue;
 				}
-			auto list_json=Convert<JsonElement>(list_item);
+			auto list_json=list_item.As<JsonElement>();
 			if(list_json)
 				{
 				if(list_pos>0)
@@ -183,6 +173,16 @@ size+=writer.Print("\r\n");
 size+=writer.PrintChar('\t', level);
 size+=writer.Print("}");
 return size;
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+JsonElement::JsonElement()
+{
+Elements=ElementMap::Create();
 }
 
 }

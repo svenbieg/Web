@@ -44,11 +44,12 @@ public:
 	using HttpResponse=Network::Http::HttpResponse;
 
 	// Con-/Destructors
-	WebContext(WebSite* WebSite);
+	static inline Handle<WebContext> Create(WebSite* WebSite) { return new WebContext(WebSite); }
 
 	// Common
 	Handle<HttpConnection> Connection;
 	Handle<Directory> DocumentRoot;
+	inline WebSite* GetWebSite()const { return m_WebSite; }
 	Handle<String> HostName;
 	Culture::LanguageCode Language;
 	LPCSTR Protocol;
@@ -57,7 +58,13 @@ public:
 	Handle<WebSession> Session;
 	UINT64 TimeStamp;
 	Handle<String> Url;
-	Web::WebSite* const WebSite;
+
+private:
+	// Con-/Destructors
+	WebContext(WebSite* WebSite);
+
+	// Common
+	Web::WebSite* m_WebSite;
 };
 
 }

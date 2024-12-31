@@ -27,9 +27,34 @@ namespace Web {
 		namespace Tables {
 
 
-//==================
-// Con-/Destructors
-//==================
+//========
+// Common
+//========
+
+VOID WebTable::AddRow(Handle<Sentence> header, Handle<Sentence> value)
+{
+auto row=HtmlRow::Create(this);
+auto th=HtmlCell::Create(row, HtmlCellType::Header);
+HtmlText::Create(th, header);
+auto td=HtmlCell::Create(row);
+HtmlText::Create(td, value);
+}
+
+VOID WebTable::AddRow(Handle<Sentence> header, Handle<Variable> var, Handle<String> id)
+{
+if(!id)
+	id=var->Name;
+auto row=HtmlRow::Create(this);
+auto th=HtmlCell::Create(row, HtmlCellType::Header);
+HtmlText::Create(th, header);
+auto td=HtmlCell::Create(row);
+WebLabel::Create(td, var, id);
+}
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
 
 WebTable::WebTable(HtmlNode* parent):
 HtmlTable(parent)
@@ -39,31 +64,6 @@ Document->AddStyle("table.simple td", "border:1px solid #A0A0A0; padding-left:4p
 Document->AddStyle("table.simple th", "background-color:#F8F8F8; border:1px solid #A0A0A0; font-weight:normal; padding-left:4px; padding-right:8px; text-align:left; vertical-align:middle;");
 Class="simple";
 m_Breaks=1;
-}
-
-
-//========
-// Common
-//========
-
-VOID WebTable::AddRow(Handle<Sentence> header, Handle<Sentence> value)
-{
-auto row=new HtmlRow(this);
-auto th=new HtmlCell(row, HtmlCellType::Header);
-new HtmlText(th, header);
-auto td=new HtmlCell(row);
-new HtmlText(td, value);
-}
-
-VOID WebTable::AddRow(Handle<Sentence> header, Handle<Variable> var, Handle<String> id)
-{
-if(!id)
-	id=var->Name;
-auto row=new HtmlRow(this);
-auto th=new HtmlCell(row, HtmlCellType::Header);
-new HtmlText(th, header);
-auto td=new HtmlCell(row);
-new WebLabel(td, var, id);
 }
 
 }}}

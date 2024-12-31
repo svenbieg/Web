@@ -1,4 +1,4 @@
-//==========
+ï»¿//==========
 // WebLog.h
 //==========
 
@@ -26,15 +26,15 @@ namespace Resources {
 
 constexpr STRING STR_WEB_LOG_CLEAR[]=
 	{
-	{ LNG::DE, "Löschen" },
-	{ LNG::EN, "Clear" },
+	{ LNG::DE, L"LÃ¶schen" },
+	{ LNG::EN, L"Clear" },
 	{ LNG::None, nullptr }
 	};
 
 constexpr STRING STR_WEB_LOG_CLEARED[]=
 	{
-	{ LNG::DE, "Protokoll zurückgesetzt" },
-	{ LNG::EN, "Protocol reset" },
+	{ LNG::DE, L"Protokoll zurÃ¼ckgesetzt" },
+	{ LNG::EN, L"Protocol reset" },
 	{ LNG::None, nullptr }
 	};
 

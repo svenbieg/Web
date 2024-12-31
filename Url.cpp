@@ -26,7 +26,7 @@ if(!len)
 	return nullptr;
 if(!escape)
 	return url;
-Handle<String> str=new String(len, nullptr);
+auto str=String::Create(len, nullptr);
 LPTSTR str_ptr=const_cast<LPTSTR>(str->Begin());
 Decode(str_ptr, len+1, url->Begin());
 return str;
@@ -48,11 +48,11 @@ while(url[url_pos])
 		buf_pos=0;
 		break;
 		}
-	if(CharCompare(url[url_pos], '%')==0)
+	if(CharHelper::Compare(url[url_pos], '%')==0)
 		{
 		escape=true;
 		UINT hex=0;
-		if(StringScan(&url[url_pos+1], "%x", &hex)!=1)
+		if(StringHelper::Scan(&url[url_pos+1], "%x", &hex)!=1)
 			{
 			buf_pos=0;
 			break;
@@ -60,7 +60,7 @@ while(url[url_pos])
 		if(buf)
 			{
 			CHAR c=(CHAR)hex;
-			buf[buf_pos]=CharToChar<TCHAR, CHAR>(c);
+			buf[buf_pos]=CharHelper::ToChar(c);
 			}
 		buf_pos++;
 		url_pos+=3;

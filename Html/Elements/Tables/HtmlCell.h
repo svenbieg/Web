@@ -47,7 +47,14 @@ class HtmlCell: public HtmlNode
 {
 public:
 	// Con-/Destructors
-	HtmlCell(HtmlRow* Row, HtmlCellType Type=HtmlCellType::Default);
+	static inline Handle<HtmlCell> Create(HtmlRow* Row, HtmlCellType Type=HtmlCellType::Default)
+		{
+		return new HtmlCell(Row, Type);
+		}
+
+private:
+	// Con-/Destructors
+	HtmlCell(HtmlRow* Row, HtmlCellType Type);
 };
 
 }}}

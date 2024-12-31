@@ -24,31 +24,18 @@ namespace Html {
 	namespace Elements {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-HtmlNode::HtmlNode(HtmlDocument* doc, LPCSTR tag, Handle<String> id):
-HtmlNode(doc, nullptr, tag, id)
-{}
-
-HtmlNode::HtmlNode(HtmlNode* parent, LPCSTR tag, Handle<String> id):
-HtmlNode(parent->Document, parent, tag, id)
-{}
-
-
 //========
 // Common
 //========
 
 VOID HtmlNode::Add(Handle<Sentence> element)
 {
-new HtmlText(this, element);
+HtmlText::Create(this, element);
 }
 
 VOID HtmlNode::SetFlag(HtmlNodeFlags flag, BOOL set)
 {
-::SetFlag(m_Flags, flag, set);
+FlagHelper::Set(m_Flags, flag, set);
 }
 
 SIZE_T HtmlNode::WriteToStream(OutputStream* stream, WebContext* context, UINT level)
@@ -77,8 +64,8 @@ m_Breaks(0),
 m_Flags(HtmlNodeFlags::None),
 m_Tag(tag)
 {
-Attributes=new AttributeMap();
-Elements=new ElementList();
+Attributes=AttributeMap::Create();
+Elements=ElementList::Create();
 }
 
 
@@ -123,7 +110,7 @@ SIZE_T HtmlNode::WriteClosureToStream(OutputStream* stream, UINT level)
 {
 SIZE_T size=0;
 StreamWriter writer(stream);
-if(GetFlag(m_Flags, HtmlNodeFlags::MultiLine))
+if(FlagHelper::Get(m_Flags, HtmlNodeFlags::MultiLine))
 	{
 	writer.Print("\r\n");
 	size+=writer.PrintChar(' ', level*2);

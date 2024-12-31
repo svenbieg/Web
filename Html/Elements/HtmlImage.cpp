@@ -25,16 +25,6 @@ namespace Html {
 
 
 //==================
-// Con-/Destructors
-//==================
-
-HtmlImage::HtmlImage(HtmlNode* parent, Handle<Sentence> url):
-HtmlNode(parent, "img"),
-m_Url(url)
-{}
-
-
-//==================
 // Common Protected
 //==================
 
@@ -48,5 +38,15 @@ size+=writer.Print(m_Url->Begin(lng));
 size+=writer.Print("\"");
 return size;
 }
+
+
+//==========================
+// Con-/Destructors Private
+//==========================
+
+HtmlImage::HtmlImage(HtmlNode* parent, Handle<Sentence> url):
+HtmlNode(parent, "img"),
+m_Url(url)
+{}
 
 }}

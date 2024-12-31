@@ -28,7 +28,7 @@ class HttpClient
 {
 public:
 	// Common
-	static Handle<HttpConnection> Connect(Handle<String> HostName, WORD Port=80);
+	static Handle<HttpConnection> Connect(Handle<String> Url, WORD Port=80);
 };
 
 }}

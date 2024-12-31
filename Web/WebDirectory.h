@@ -34,12 +34,18 @@ private:
 
 public:
 	// Con-/Destructors
-	WebDirectory(Handle<Directory> Directory);
+	static inline Handle<WebDirectory> Create(Handle<Directory> Directory)
+		{
+		return new WebDirectory(Directory);
+		}
 
 	// Common
 	SIZE_T WriteToStream(OutputStream* Stream, Handle<String> Root);
 
 private:
+	// Con-/Destructors
+	WebDirectory(Handle<Directory> Directory): m_Directory(Directory) {}
+
 	// Common
 	Handle<Directory> m_Directory;
 };

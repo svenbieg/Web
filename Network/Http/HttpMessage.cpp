@@ -39,7 +39,7 @@ BOOL HttpMessage::KeepAlive()
 auto con=Properties->Get("Connection");
 if(!con)
 	return false;
-return StringCompare(con->Begin(), "keep-alive", 0, false)==0;
+return StringHelper::Compare(con->Begin(), "keep-alive", 0, false)==0;
 }
 
 VOID HttpMessage::KeepAlive(BOOL keep_alive)
@@ -55,7 +55,7 @@ Properties->Set("Connection", keep_alive? "Keep-Alive": "Close");
 HttpMessage::HttpMessage(HttpStatus status):
 Status(status)
 {
-Properties=new PropertyMap();
+Properties=PropertyMap::Create();
 }
 
 }}

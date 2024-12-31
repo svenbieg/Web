@@ -26,16 +26,6 @@ using namespace Storage::Streams;
 namespace Web {
 
 
-//==================
-// Con-/Destructors
-//==================
-
-WebPage::WebPage()
-{
-Controls=new WebControlMap();
-}
-
-
 //========
 // Common
 //========
@@ -47,7 +37,7 @@ auto response=context->Response;
 auto accept=request->Properties->Get("Accept");
 if(accept->Contains("text/html"))
 	{
-	Handle<Intermediate> buf=new Intermediate();
+	auto buf=Intermediate::Create();
 	buf->SetFormat(StreamFormat::UTF8);
 	this->WriteToStream(buf, context);
 	response->Content=buf;
@@ -58,7 +48,7 @@ if(accept->Contains("text/event-stream"))
 	auto session=context->Session;
 	ScopedLock lock(session->Mutex);
 	if(!session->EventSource)
-		session->EventSource=new WebEventSource(this);
+		session->EventSource=WebEventSource::Create(this);
 	lock.Unlock();
 	session->EventSource->RequestGet(context);
 	}
@@ -83,6 +73,16 @@ VOID WebPage::RequestPost(Handle<WebContext> context)
 {
 auto response=context->Response;
 response->Status=HttpStatus::BadRequest;
+}
+
+
+//============================
+// Con-/Destructors Protected
+//============================
+
+WebPage::WebPage()
+{
+Controls=WebControlMap::Create();
 }
 
 }
