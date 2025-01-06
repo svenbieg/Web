@@ -95,7 +95,7 @@ if(Style)
 	size+=writer.Print(Style);
 	size+=writer.Print("\"");
 	}
-for(auto it=Attributes->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Attributes->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	size+=writer.Print(" ");
 	size+=writer.Print(it->GetKey());
@@ -131,7 +131,7 @@ return size;
 SIZE_T HtmlNode::WriteElementsToStream(OutputStream* stream, WebContext* context, UINT level)
 {
 SIZE_T size=0;
-for(auto it=Elements->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Elements->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto element=it->GetCurrent();
 	size+=element->WriteToStream(stream, context, level);

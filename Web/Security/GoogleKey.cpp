@@ -57,7 +57,7 @@ auto keys=json->GetList("keys");
 if(!keys)
 	throw InvalidArgumentException();
 Handle<GoogleKey> key;
-for(auto it=keys->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=keys->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto key_json=it->GetCurrent().As<JsonElement>();
 	if(!key_json)

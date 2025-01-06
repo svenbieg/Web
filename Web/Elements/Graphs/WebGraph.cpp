@@ -74,7 +74,7 @@ if(axis_x_count>0)
 	{
 	size+=writer.Print("var axisX=[ ");
 	UINT pos=0;
-	for(auto it=AxisX->Points->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=AxisX->Points->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto x=it->GetKey();
 		auto label=it->GetValue();
@@ -97,7 +97,7 @@ if(axis_y_count>0)
 	{
 	size+=writer.Print("var axisY=[ ");
 	UINT pos=0;
-	for(auto it=AxisY->Points->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=AxisY->Points->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto y=it->GetKey();
 		auto label=it->GetValue();
@@ -116,7 +116,7 @@ if(axis_y_count>0)
 UINT row_count=Rows->GetCount();
 if(row_count>0)
 	{
-	for(auto it=Rows->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=Rows->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto row=it->GetCurrent();
 		size+=writer.Print("var ");
@@ -127,7 +127,7 @@ if(row_count>0)
 		}
 	size+=writer.Print("var rows=[\r\n\t");
 	UINT pos=0;
-	for(auto it=Rows->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=Rows->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto row=it->GetCurrent();
 		if(pos++>0)

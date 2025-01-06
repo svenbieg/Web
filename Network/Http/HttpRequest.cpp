@@ -152,7 +152,7 @@ if(Parameters->GetCount()>0)
 	size+=Parameters->WriteToStream(stream);
 	}
 size+=writer.Print(" HTTP/1.1\r\n");
-for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Properties->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto key=it->GetKey();
 	auto value=it->GetValue();
@@ -205,7 +205,7 @@ else
 	Properties->Remove("Content-Length");
 	Properties->Remove("Content-Type");
 	}
-for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Properties->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto key=it->GetKey();
 	auto value=it->GetValue();

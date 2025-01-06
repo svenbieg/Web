@@ -121,7 +121,7 @@ size+=writer.Print("\r\n");
 size+=writer.PrintChar('\t', level);
 size+=writer.Print("{");
 UINT pos=0;
-for(auto it=Elements->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Elements->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	if(pos++>0)
 		size+=writer.Print(",");
@@ -145,7 +145,7 @@ for(auto it=Elements->First(); it->HasCurrent(); it->MoveNext())
 		{
 		UINT list_pos=0;
 		size+=writer.Print("[");
-		for(auto it_list=list->First(); it->HasCurrent(); it->MoveNext())
+		for(auto it_list=list->Begin(); it->HasCurrent(); it->MoveNext())
 			{
 			auto list_item=it_list->GetCurrent();
 			auto list_str=list_item.As<String>();

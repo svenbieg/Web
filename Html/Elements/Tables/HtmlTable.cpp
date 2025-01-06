@@ -62,7 +62,7 @@ if(Columns->GetCount()>0)
 	size+=writer.Print("\r\n");
 	size+=writer.PrintChar(' ', child_level*2);
 	size+=writer.Print("<colgroup>");
-	for(auto it=Columns->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=Columns->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto col=it->GetCurrent();
 		size+=col->WriteToStream(stream, child_level+1);

@@ -105,7 +105,7 @@ while(1)
 		buf->SetFormat(StreamFormat::UTF8);
 		StreamWriter writer(buf);
 		writer.Print("data: ");
-		for(auto it=m_WebPage->Controls->First(); it->HasCurrent(); it->MoveNext())
+		for(auto it=m_WebPage->Controls->Begin(); it->HasCurrent(); it->MoveNext())
 			{
 			auto control=it->GetValue();
 			auto var=dynamic_cast<WebVariable*>(control);

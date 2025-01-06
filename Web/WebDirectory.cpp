@@ -121,7 +121,7 @@ else
 	{
 	size+=writer.Print("  <tr><th><a href=\"index.html\">..</a></th></tr>\r\n");
 	}
-for(auto it=m_Directory->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Directory->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto item=it->GetCurrent();
 	auto dir=item.As<Storage::Directory>();
@@ -137,7 +137,7 @@ for(auto it=m_Directory->First(); it->HasCurrent(); it->MoveNext())
 	}
 size+=writer.Print("</table>\r\n</p>\r\n\r\n");
 size+=writer.Print("<p>\r\n<table>\r\n");
-for(auto it=m_Directory->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Directory->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto item=it->GetCurrent();
 	if(item.As<Storage::Directory>())

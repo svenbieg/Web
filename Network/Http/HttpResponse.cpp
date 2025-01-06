@@ -86,7 +86,7 @@ SIZE_T HttpResponse::WriteHeaderToStream(OutputStream* stream)
 SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print("HTTP/1.1 %u %s\r\n", (UINT)Status, HttpHelper::StatusToString(Status));
-for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Properties->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto key=it->GetKey();
 	auto value=it->GetValue();
@@ -98,7 +98,7 @@ for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
 if(Cookies->GetCount()>0)
 	{
 	size+=writer.Print("Set-Cookie: ");
-	for(auto it=Cookies->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=Cookies->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto key=it->GetKey();
 		auto value=it->GetValue();
@@ -145,7 +145,7 @@ else
 	{
 	Properties->Remove("Content-Length");
 	}
-for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Properties->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto key=it->GetKey();
 	auto value=it->GetValue();
@@ -157,7 +157,7 @@ for(auto it=Properties->First(); it->HasCurrent(); it->MoveNext())
 if(Cookies->GetCount()>0)
 	{
 	size+=writer.Print("Set-Cookie: ");
-	for(auto it=Cookies->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=Cookies->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto key=it->GetKey();
 		auto value=it->GetValue();

@@ -63,7 +63,7 @@ SIZE_T HttpParameters::WriteToStream(OutputStream* stream)
 SIZE_T size=0;
 StreamWriter writer(stream);
 UINT pos=0;
-for(auto it=First(); it->HasCurrent(); it->MoveNext())
+for(auto it=Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	if(pos>0)
 		size+=writer.PrintChar('&');

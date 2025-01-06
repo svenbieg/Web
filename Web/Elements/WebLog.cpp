@@ -54,7 +54,7 @@ SIZE_T size=0;
 StreamWriter writer(stream);
 size+=writer.Print(Id);
 size+=writer.Print("=");
-for(auto it=m_Log->Entries->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Log->Entries->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto entry=it->GetCurrent();
 	size+=writer.Print("<tr><th>");
@@ -79,7 +79,7 @@ UINT body_level=level+1;
 size+=writer.PrintChar(' ', body_level*2);
 size+=writer.Print("<tbody>");
 UINT row_level=body_level+1;
-for(auto it=m_Log->Entries->First(); it->HasCurrent(); it->MoveNext())
+for(auto it=m_Log->Entries->Begin(); it->HasCurrent(); it->MoveNext())
 	{
 	auto entry=it->GetCurrent();
 	size+=writer.Print("\r\n");

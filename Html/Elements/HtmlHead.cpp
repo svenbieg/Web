@@ -51,7 +51,7 @@ size+=WriteElementsToStream(stream, context, level);
 if(Styles->GetCount()>0)
 	{
 	size+=writer.Print("\r\n<style type=\"text/css\">\r\n");
-	for(auto it=Styles->First(); it->HasCurrent(); it->MoveNext())
+	for(auto it=Styles->Begin(); it->HasCurrent(); it->MoveNext())
 		{
 		auto id=it->GetKey();
 		auto style=it->GetValue();
