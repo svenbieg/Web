@@ -43,7 +43,7 @@ HtmlText::Create(td, value);
 VOID WebTable::AddRow(Handle<Sentence> header, Handle<Variable> var, Handle<String> id)
 {
 if(!id)
-	id=var->Name;
+	id=var->GetName();
 auto row=HtmlRow::Create(this);
 auto th=HtmlCell::Create(row, HtmlCellType::Header);
 HtmlText::Create(th, header);

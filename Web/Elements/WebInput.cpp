@@ -121,7 +121,7 @@ return size;
 //==========================
 
 WebInput::WebInput(HtmlNode* parent, Handle<Variable> var, Handle<String> id, WebInputType type):
-WebVariable(parent, "input", id? id: var->Name),
+WebVariable(parent, "input", id? id: var->GetName()),
 m_InputType(type),
 m_TimeChanged(0),
 m_Variable(var)

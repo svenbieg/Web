@@ -74,7 +74,7 @@ return size;
 //==========================
 
 WebLabel::WebLabel(HtmlNode* parent, Handle<Variable> var, Handle<String> id):
-WebVariable(parent, "label", id? id: var->Name),
+WebVariable(parent, "label", id? id: var->GetName()),
 m_Variable(var),
 m_TimeChanged(0)
 {
